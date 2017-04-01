@@ -1,0 +1,14 @@
+{
+  "name": "datab",
+  "version": "0.0.1",
+  "description": "tabular data refining ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jake Kara",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "d3": "^4.7.4"
+  }
+}
