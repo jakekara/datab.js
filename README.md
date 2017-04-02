@@ -17,4 +17,4 @@ of handy d3 code but in a powerful way I haven't seen quite like this.
 # npm package
 
 I should have this packaged up in the next couple of days so it can be
-installed as a library.
+installed as a library. 
