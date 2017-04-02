@@ -16577,9 +16577,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
  *        drop_col - drop a column
  *        drop_row - drop a row
  *       
- *         to_html - generate an html table
- *       append_to - append html table to a d3 selection
+ *       append_to - append as an html table to a d3 selection
  *         to_json - create a json string of the data
+ *          to_csv - output a csv
+ *          to_obj - output as an array of (dict-like) objects
+ * 
  */
 
 const d3 = require("d3");
@@ -16722,62 +16724,144 @@ data.prototype.add_col = function ( arr, id, index )
     return this.transpose().add_row( arr, id, index ).transpose();
 }
 
+
+/*
+ * to_obj - output array of row (dict-like) objects
+ */
+data.prototype.to_obj = function()
+{
+    var ret = [];
+
+    var cols = this.index( "col" );
+    this.rows().forEach( function( r ){
+	var obj = {};
+	
+	r.forEach( function( a, i ){
+	    obj[cols[i]] = a;
+	});
+
+	ret.push(obj);
+	
+    });
+			 
+    return ret;			 
+}
+
 /*
  * to_csv - output csv
  */
-data.prototype.to_csv = function()
+data.prototype.to_csv = function( index_col, index_row )
 {
-    return d3.csvFormat(this
-			// .add_row( this.index( "col" ), "", 0 ) 
-			// .add_col( [""].push(this.index( "col" )),"", 0 )
-			.rows());
+    return d3.csvFormat( this.to_obj() );
 }
 
-},{"d3":1}],3:[function(require,module,exports){
-const data = require("./datab-data.js")["data"];
+/*
+ * to_json - output json string
+ */
+data.prototype.to_json = function()
+{
+    return JSON.stringify( this.to_obj() );
+}
 
+/*
+ * append_to - append table to a d3 selection
+ */
+data.prototype.append_to = function( sel )
+{
+    var table = sel.append( "table" );
+
+    var thead = table.append( "thead" );
+    var tbody = table.append( "tbody" );
+    
+    var thead_cols = thead.selectAll( "td" )
+	.data( this.index( "col" ) )
+    	.enter()
+    	.append( "td" )
+    	.text( function( d ) {
+    	    return d;
+    	});
+
+    var tbody_rows = tbody.selectAll( "tr" )
+	.data( this.rows() )
+	.enter()
+	.append( "tr" )
+
+    var row_cells = tbody_rows.selectAll( "td" )
+	.data( function( d ){ return d; } )
+	.enter()
+	.append( "td" )
+	.text( function( d ){ return d; } );
+}
+
+
+},{"d3":1}],3:[function(require,module,exports){
+/*
+ * datab demo
+ * 
+ * will have to suffice until documentation exists
+ */
+
+const data = require("./datab-data.js")["data"];
+const d3 = require("d3");
+
+// a new table with three rows and three columns
 d = new data([
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9]
 ]);
 
+// print the initial object
 console.log("Initial");
 console.log(d);
 
-d = d.copy().index("col",["one","two","three"]);
+// name the columns "one" "two" and "three"
+d = d.copy().index( "col",["one","two","three"] );
 
-console.log("Named columns");
-console.log(d);
+console.log( "Named columns" );
+console.log( d );
 
-d = d.drop_col("two");
+// drop a column
+d = d.drop_col( "two" );
+console.log( "Dropped column 'two'" );
+console.log( d );
 
-// console.log( d.index("row") );
-// console.log( d.index("col") );
-console.log("Dropped column 'two'");
-console.log(d);
+// transpose the table
+console.log( "transposed" );
+console.log( d.transpose() );
+console.log( d );
 
-console.log("transposed");
-console.log(d.transpose());
-
-console.log("csv format");
-console.log(d.to_csv());
-
-console.log("add row");
+// add a row
+console.log( "add row" );
 d = d.add_row( [100, 200],
 	       "four",
 	       12 );
 
+// ouput object formatn
+console.log( "obj format" );
+console.log( d.to_obj() );
+
+// output csv format
+console.log("csv format");
+console.log(d.to_csv());
+
+// outpt json format
+console.log("json format");
+console.log(d.to_json());
 console.log(d);
 
-
+// add a column
 console.log("add col");
 d = d.add_col( [ 111, 222, 333, 444 ],
 	       "A",
-	       12 );
+	       0 );
 
 console.log(d);
 
-console.log(d.to_csv());
+// append_to only works in a browser environment of course.
+// you need something to append it to (a d3 selection)
+if (typeof(document) != "undefined")
+    d.append_to(d3.select("#container"));
 
-},{"./datab-data.js":2}]},{},[3]);
+
+},{"./datab-data.js":2,"d3":1}]},{},[3]);

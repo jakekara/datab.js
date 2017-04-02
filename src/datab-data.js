@@ -13,9 +13,11 @@
  *        drop_col - drop a column
  *        drop_row - drop a row
  *       
- *         to_html - generate an html table
- *       append_to - append html table to a d3 selection
+ *       append_to - append as an html table to a d3 selection
  *         to_json - create a json string of the data
+ *          to_csv - output a csv
+ *          to_obj - output as an array of (dict-like) objects
+ * 
  */
 
 const d3 = require("d3");
@@ -158,13 +160,72 @@ data.prototype.add_col = function ( arr, id, index )
     return this.transpose().add_row( arr, id, index ).transpose();
 }
 
+
+/*
+ * to_obj - output array of row (dict-like) objects
+ */
+data.prototype.to_obj = function()
+{
+    var ret = [];
+
+    var cols = this.index( "col" );
+    this.rows().forEach( function( r ){
+	var obj = {};
+	
+	r.forEach( function( a, i ){
+	    obj[cols[i]] = a;
+	});
+
+	ret.push(obj);
+	
+    });
+			 
+    return ret;			 
+}
+
 /*
  * to_csv - output csv
  */
-data.prototype.to_csv = function()
+data.prototype.to_csv = function( index_col, index_row )
 {
-    return d3.csvFormat(this
-			// .add_row( this.index( "col" ), "", 0 ) 
-			// .add_col( [""].push(this.index( "col" )),"", 0 )
-			.rows());
+    return d3.csvFormat( this.to_obj() );
 }
+
+/*
+ * to_json - output json string
+ */
+data.prototype.to_json = function()
+{
+    return JSON.stringify( this.to_obj() );
+}
+
+/*
+ * append_to - append table to a d3 selection
+ */
+data.prototype.append_to = function( sel )
+{
+    var table = sel.append( "table" );
+
+    var thead = table.append( "thead" );
+    var tbody = table.append( "tbody" );
+    
+    var thead_cols = thead.selectAll( "td" )
+	.data( this.index( "col" ) )
+    	.enter()
+    	.append( "td" )
+    	.text( function( d ) {
+    	    return d;
+    	});
+
+    var tbody_rows = tbody.selectAll( "tr" )
+	.data( this.rows() )
+	.enter()
+	.append( "tr" )
+
+    var row_cells = tbody_rows.selectAll( "td" )
+	.data( function( d ){ return d; } )
+	.enter()
+	.append( "td" )
+	.text( function( d ){ return d; } );
+}
+
