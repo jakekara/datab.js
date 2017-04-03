@@ -16766,7 +16766,7 @@ data.prototype.to_json = function()
 /*
  * from_obj - 
  */
-data.prototype.from_obj = function(obj)
+data.from_obj = function(obj)
 {
     if ( obj.length < 1 )
 	return [[]];
@@ -16786,10 +16786,14 @@ data.prototype.from_obj = function(obj)
 	
 	rows.push(row);
     }
+    console.log("data.from_obj rows", rows);
 
-    return new data(rows)
-	.index( "col", col_index );
+    var ret = new data(rows);
+    ret.index( "col", col_index );
     
+    console.log("data.from_obj ret", ret);
+    
+    return ret;
 }
 
 },{"d3":1}],3:[function(require,module,exports){

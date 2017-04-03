@@ -45,6 +45,10 @@ d = d.add_row( [100, 200],
 console.log( "obj format" );
 console.log( d.to_obj() );
 
+var obj = d.to_obj();
+console.log("from obj", console.log(datab.data.from_obj(obj)));
+
+
 // output csv format
 console.log("csv format");
 console.log(d.to_csv());
@@ -60,25 +64,27 @@ d = d.add_col( [ 111, 222, 333, 444 ],
 	       "A",
 	       0 );
 
+
 console.log(d);
 
 // append_to only works in a browser environment of course.
 // you need something to append it to (a d3 selection)
-if (typeof(document) != "undefined")
+if ( typeof( document ) != "undefined" )
 {
     dui = new datab.ui()
 	.obj(d)
-	.container(d3.select("#container"));
+	.container(d3.select( "#container" ));
     
     dui.draw()
     
+    console.log( "from_html" );
 
-    console.log("from_html");
-    console.log(dui.from_html(d3.select("#container")));
+    console.log(dui.from_html( d3.select( "#container" )));
 
     console.log( "setting drop mode to valid value ");
 
     console.log( "setting drop mode to invalid value ");
+    
     dui.drop_mode( "true" );
 }
 
@@ -16851,7 +16857,7 @@ data.prototype.to_json = function()
 /*
  * from_obj - 
  */
-data.prototype.from_obj = function(obj)
+data.from_obj = function(obj)
 {
     if ( obj.length < 1 )
 	return [[]];
@@ -16871,10 +16877,14 @@ data.prototype.from_obj = function(obj)
 	
 	rows.push(row);
     }
+    console.log("data.from_obj rows", rows);
 
-    return new data(rows)
-	.index( "col", col_index );
+    var ret = new data(rows);
+    ret.index( "col", col_index );
     
+    console.log("data.from_obj ret", ret);
+    
+    return ret;
 }
 
 },{"d3":2}],4:[function(require,module,exports){

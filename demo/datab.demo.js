@@ -44,6 +44,10 @@ d = d.add_row( [100, 200],
 console.log( "obj format" );
 console.log( d.to_obj() );
 
+var obj = d.to_obj();
+console.log("from obj", console.log(datab.data.from_obj(obj)));
+
+
 // output csv format
 console.log("csv format");
 console.log(d.to_csv());
@@ -59,25 +63,27 @@ d = d.add_col( [ 111, 222, 333, 444 ],
 	       "A",
 	       0 );
 
+
 console.log(d);
 
 // append_to only works in a browser environment of course.
 // you need something to append it to (a d3 selection)
-if (typeof(document) != "undefined")
+if ( typeof( document ) != "undefined" )
 {
     dui = new datab.ui()
 	.obj(d)
-	.container(d3.select("#container"));
+	.container(d3.select( "#container" ));
     
     dui.draw()
     
+    console.log( "from_html" );
 
-    console.log("from_html");
-    console.log(dui.from_html(d3.select("#container")));
+    console.log(dui.from_html( d3.select( "#container" )));
 
     console.log( "setting drop mode to valid value ");
 
     console.log( "setting drop mode to invalid value ");
+    
     dui.drop_mode( "true" );
 }
 
