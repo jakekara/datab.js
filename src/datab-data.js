@@ -202,7 +202,7 @@ data.prototype.to_json = function()
 /*
  * from_obj - 
  */
-data.prototype.from_obj = funtion(obj)
+data.prototype.from_obj = function(obj)
 {
     if ( obj.length < 1 )
 	return [[]];
