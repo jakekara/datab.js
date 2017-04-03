@@ -198,7 +198,7 @@ ui.prototype.edit_mode = function( val )
 	that.container().selectAll( "th" ).attr( "contenteditable", false );
 
 	d3.select( this ).attr( "contenteditable", true );
-	d3.select( this ).on( "change", function(){
+	d3.select( this ).on( "blur", function(){
 	    that.from_html();
 	    that.draw();
 	});
