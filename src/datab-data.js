@@ -199,3 +199,31 @@ data.prototype.to_json = function()
     return JSON.stringify( this.to_obj() );
 }
 
+/*
+ * from_obj - 
+ */
+data.prototype.from_obj = funtion(obj)
+{
+    if ( obj.length < 1 )
+	return [[]];
+    
+    var col_index = Object.keys( obj[0] );
+    var rows = [];
+    
+    for ( var i in obj )
+    {
+	var obj_row = obj[i];
+	var row = [];
+	
+	for ( var c in col_index )
+	{
+	    row.push(obj_row[col_index[c]]);
+	}
+	
+	rows.push(row);
+    }
+
+    return new data(rows)
+	.index( "col", col_index );
+    
+}
