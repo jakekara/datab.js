@@ -199,33 +199,3 @@ data.prototype.to_json = function()
     return JSON.stringify( this.to_obj() );
 }
 
-/*
- * append_to - append table to a d3 selection
- */
-data.prototype.append_to = function( sel )
-{
-    var table = sel.append( "table" );
-
-    var thead = table.append( "thead" );
-    var tbody = table.append( "tbody" );
-    
-    var thead_cols = thead.selectAll( "td" )
-	.data( this.index( "col" ) )
-    	.enter()
-    	.append( "td" )
-    	.text( function( d ) {
-    	    return d;
-    	});
-
-    var tbody_rows = tbody.selectAll( "tr" )
-	.data( this.rows() )
-	.enter()
-	.append( "tr" )
-
-    var row_cells = tbody_rows.selectAll( "td" )
-	.data( function( d ){ return d; } )
-	.enter()
-	.append( "td" )
-	.text( function( d ){ return d; } );
-}
-

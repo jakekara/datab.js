@@ -1,89 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/*
- * datab demo
- * 
- * will have to suffice until documentation exists
- */
-
-const datab = require("../src/datab.js");
-d3 = require("d3");
-
-// a new table with three rows and three columns
-d = new datab.data([
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
-]);
-
-// print the initial object
-console.log("Initial");
-console.log(d);
-
-// name the columns "one" "two" and "three"
-d = d.copy().index( "col",["one","two","three"] );
-
-console.log( "Named columns" );
-console.log( d );
-
-// drop a column
-d = d.drop_col( "two" );
-console.log( "Dropped column 'two'" );
-console.log( d );
-
-// transpose the table
-console.log( "transposed" );
-console.log( d.transpose() );
-console.log( d );
-
-// add a row
-console.log( "add row" );
-d = d.add_row( [100, 200],
-	       "four",
-	       12 );
-
-// ouput object formatn
-console.log( "obj format" );
-console.log( d.to_obj() );
-
-// output csv format
-console.log("csv format");
-console.log(d.to_csv());
-
-// outpt json format
-console.log("json format");
-console.log(d.to_json());
-console.log(d);
-
-// add a column
-console.log("add col");
-d = d.add_col( [ 111, 222, 333, 444 ],
-	       "A",
-	       0 );
-
-console.log(d);
-
-// append_to only works in a browser environment of course.
-// you need something to append it to (a d3 selection)
-if (typeof(document) != "undefined")
-{
-    dui = new datab.ui()
-	.obj(d)
-	.container(d3.select("#container"));
-    
-    dui.draw()
-    
-
-    console.log("from_html");
-    console.log(dui.from_html(d3.select("#container")));
-
-    console.log( "setting drop mode to valid value ");
-
-    console.log( "setting drop mode to invalid value ");
-    dui.drop_mode( "true" );
-}
-
-
-},{"../src/datab.js":5,"d3":2}],2:[function(require,module,exports){
 // https://d3js.org Version 4.7.4. Copyright 2017 Mike Bostock.
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -16646,7 +16561,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
 
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 /*
  * datab-data.js - object for tabular data and basic transformations
  *
@@ -16849,7 +16764,7 @@ data.prototype.to_json = function()
 }
 
 
-},{"d3":2}],4:[function(require,module,exports){
+},{"d3":1}],3:[function(require,module,exports){
 /*
  * datab-ui.js - extend the datab-data object with browser functionality
  */
@@ -17128,7 +17043,7 @@ ui.prototype.drop = function( row_col, n )
 }
 
 
-},{"./datab-data.js":3,"d3":2}],5:[function(require,module,exports){
+},{"./datab-data.js":2,"d3":1}],4:[function(require,module,exports){
 /*
  * datab - main entry point for datab library
  */
@@ -17136,4 +17051,4 @@ ui.prototype.drop = function( row_col, n )
 exports.data = require("./datab-data.js")["data"];
 exports.ui  = require("./datab-ui.js")["ui"];
 
-},{"./datab-data.js":3,"./datab-ui.js":4}]},{},[1]);
+},{"./datab-data.js":2,"./datab-ui.js":3}]},{},[4]);
