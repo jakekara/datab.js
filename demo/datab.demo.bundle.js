@@ -46,8 +46,8 @@ console.log( "obj format" );
 console.log( d.to_obj() );
 
 var obj = d.to_obj();
-console.log("from obj", console.log(datab.data.from_obj(obj)));
-
+console.log("obj", obj);
+console.log("from obj", datab.data.from_obj(obj));
 
 // output csv format
 console.log("csv format");
@@ -16855,9 +16855,9 @@ data.prototype.to_json = function()
 }
 
 /*
- * from_obj - 
+ * from_obj - create datab.data object from an array of row objects
  */
-data.from_obj = function(obj)
+data.prototype.from_obj = function(obj)
 {
     if ( obj.length < 1 )
 	return [[]];
@@ -16877,12 +16877,10 @@ data.from_obj = function(obj)
 	
 	rows.push(row);
     }
-    console.log("data.from_obj rows", rows);
 
+    console.log("data.from_obj rows", rows);
     var ret = new data(rows);
     ret.index( "col", col_index );
-    
-    console.log("data.from_obj ret", ret);
     
     return ret;
 }
