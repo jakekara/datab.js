@@ -235,7 +235,6 @@ data.prototype.from_obj = function(obj)
  */
 data.prototype.from_input = function( sel, callback )
 {
-
     var reader = new FileReader();
     
     var files = sel.node().files;
@@ -253,6 +252,7 @@ data.prototype.from_input = function( sel, callback )
 	callback( new data([[]]).from_obj( d3.csvParse( reader.result )));
     }
     
-    reader.readAsText(file);
-
+    d3.select(this).on("change", function(){
+	reader.readAsText(file);
+    });
 }
