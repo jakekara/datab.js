@@ -16831,8 +16831,8 @@ ui.prototype.container = function( sel )
     if ( typeof( sel ) == "undefined" )
 	return this.__container;
 
-    if ( ! ( sel instanceof d3.selection ))
-	throw "data.ui.container optional argument must be a d3 selection"
+    // if ( ! ( sel instanceof d3.selection ))
+    // 	throw "data.ui.container optional argument must be a d3 selection"
 
     this.__container = sel;
 

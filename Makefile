@@ -1,4 +1,4 @@
-all: datab.min.js datab.demo.bundle.js
+all: datab.min.js # datab.demo.bundle.js #
 
 # create demo
 datab.demo.bundle.js: src/datab.js src/datab-ui.js src/datab-data.js demo/datab.demo.js
