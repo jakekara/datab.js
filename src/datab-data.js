@@ -223,7 +223,6 @@ data.prototype.from_obj = function(obj)
 	rows.push(row);
     }
 
-    console.log( "data.from_obj rows", rows );
     var ret = new data( rows );
     ret.index( "col", col_index );
     
