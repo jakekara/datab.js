@@ -16743,7 +16743,7 @@ data.prototype.to_obj = function()
 	ret.push(obj);
 	
     });
-			 
+    
     return ret;			 
 }
 
@@ -16793,10 +16793,39 @@ data.prototype.from_obj = function(obj)
     return ret;
 }
 
+
+/*
+ * from_input - read a csv from a file input field
+ */
+data.prototype.from_input = function( sel, callback )
+{
+
+    var reader = new FileReader();
+    
+    var files = sel.node().files;
+
+    if (typeof(files) == "undefined" || files.length < 1)
+    {
+	console.error("no file selected");
+	return;
+    }
+
+    var file = files[0];
+
+    reader.onloadend = function( e )
+    {
+	callback( new data([[]]).from_obj( d3.csvParse( reader.result )));
+    }
+    
+    reader.readAsText(file);
+
+}
+
 },{"d3":1}],3:[function(require,module,exports){
 /*
  * datab-ui.js - extend the datab-data object with browser functionality
  */
+
 const d3 = require( "d3" );
 const data = require( "./datab-data.js" )["data"];
 

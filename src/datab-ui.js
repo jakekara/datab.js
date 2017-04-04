@@ -1,6 +1,7 @@
 /*
  * datab-ui.js - extend the datab-data object with browser functionality
  */
+
 const d3 = require( "d3" );
 const data = require( "./datab-data.js" )["data"];
 
