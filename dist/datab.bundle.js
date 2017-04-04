@@ -16799,26 +16799,27 @@ data.prototype.from_obj = function(obj)
  */
 data.prototype.from_input = function( sel, callback )
 {
-
-    var reader = new FileReader();
     
-    var files = sel.node().files;
+    d3.select(this).on("change", function(){
+	var reader = new FileReader();
+	
+	var files = sel.node().files;
 
-    if (typeof(files) == "undefined" || files.length < 1)
-    {
-	console.error("no file selected");
-	return;
-    }
+	if (typeof(files) == "undefined" || files.length < 1)
+	{
+	    console.error("no file selected");
+	    return;
+	}
 
-    var file = files[0];
+	var file = files[0];
 
-    reader.onloadend = function( e )
-    {
-	callback( new data([[]]).from_obj( d3.csvParse( reader.result )));
-    }
-    
-    reader.readAsText(file);
+	reader.onloadend = function( e )
+	{
+	    callback( new data([[]]).from_obj( d3.csvParse( reader.result )));
+	}
 
+	reader.readAsText(file);
+    });
 }
 
 },{"d3":1}],3:[function(require,module,exports){
