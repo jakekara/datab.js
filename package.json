@@ -2,7 +2,7 @@
   "name": "datab",
   "version": "0.0.1",
   "description": "tabular data refining ",
-  "main": "dist/datab.min.js",
+  "main": "src/datab.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

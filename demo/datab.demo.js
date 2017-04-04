@@ -2,11 +2,14 @@
  * datab demo
  * 
  * will have to suffice until documentation exists
+ * 
  */
 
-const datab = require("../src/datab.js");
+// const datab = require("../src/datab.js");
+const datab = require("datab");
 d3 = require("d3");
 
+console.log("datab", datab);
 // a new table with three rows and three columns
 d = new datab.data([
     [1, 2, 3],
