@@ -47,7 +47,7 @@ console.log( d.to_obj() );
 
 var obj = d.to_obj();
 console.log("obj", obj);
-console.log("from obj", datab.data.from_obj(obj));
+console.log("from obj", (new datab.data([[]])).from_obj(obj));
 
 // output csv format
 console.log("csv format");
