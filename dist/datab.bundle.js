@@ -16800,7 +16800,7 @@ data.prototype.from_obj = function(obj)
 data.prototype.from_input = function( sel, callback )
 {
     
-    d3.select(this).on("change", function(){
+    sel.on("change", function(){
 	var reader = new FileReader();
 	
 	var files = sel.node().files;
