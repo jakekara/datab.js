@@ -7,7 +7,7 @@ demo: datab.demo.js
 
 reinstall:
 	npm uninstall datab
-	npm install ../package
+	npm install ..
 
 clean: 
-	rm datab.demo.bundle.js
+	rm -f datab.demo.bundle.js

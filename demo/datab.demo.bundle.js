@@ -16693,6 +16693,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
  *         to_json - create a json string of the data
  *          to_csv - output a csv
  *          to_obj - output as an array of (dict-like) objects
+ *      to_csvblob - create a downbloadable csv blob
  *
  *      from_input - create data object from a file input selection 
  *                   ( csv files only )
@@ -16866,6 +16867,23 @@ data.prototype.to_obj = function()
     
     return ret;			 
 }
+
+/*
+ * to_csvblob - create file-like csv blob
+ */
+data.prototype.to_csvblob = function()
+{
+    return new Blob([this.to_csv()], { type: 'text/csv;charset=utf-8;' });
+}
+
+/*
+ * to_jsonblob - create file-like csv blob
+ */
+data.prototype.to_jsonblob = function()
+{
+    return new Blob([this.to_json()], { type: 'application/json;charset=utf-8;' });
+}
+
 
 /*
  * to_csv - output csv
