@@ -1,5 +1,7 @@
 # datab.data
 
+core functions:
+
              data - constructor
              copy - get a copy of a data object
             index - set or get the col or row index
@@ -16,3 +18,7 @@
                     ( csv files only )
          from_obj - create data object from an array of dict-like
                     row objects
+
+# databl.ui
+
+functions for use in browser
