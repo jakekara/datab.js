@@ -1,20 +1,43 @@
 # datab
 
-tabular data transformations for front-end and command-line use
+__basic tabular data transformations for use in browser or in node.__
 
-# no docs yet
+# purpose
 
-the src/datab.js file demonstrates how to use each of the functions.
+1. CSVs used to populate charts, graphs or databases are rarely 100% flight-ready,
+in the right format we need. This allows columns to be dropped and renamed, or
+the entire table to be transposed, so you don't have to modify your CSV outside
+of your app and re-upload it. Transposing tables is really handy for charts,
+where you aren't sure whether you want your columns or rows to be the X or Y
+axis, for instance.
 
-the demo/index.html file shows that in a browser environment, the append_to
-function works.
+2. This is designed so any of the appropriate functions can be used in a node
+context, outside of the browser.
 
-# about
+# features
 
-I've written this enough times now to make a version public. It wraps a lot
-of handy d3 code but in a powerful way I haven't seen quite like this.
+* pull in data from matrices (two-dimensional arrays), CSV files, JSON strings
+  or objects (array of dict-like row objects)
+* transform data (add and drop rows and columns, or transpose table)
+* set column and row names ("indexes")
+* output to JSON, js objects, CSV format CSV blobs
+* render as editable HTML tables
+
+
+# status: early
+
+It's still early days.  This project is subject to incompatible API
+changes. I'll probably lock in a major version by the end of April, when the
+project this was developed for goes public.
 
 # npm package
 
-I should have this packaged up in the next couple of days so it can be
-installed as a library. 
+https://www.npmjs.com/package/datab
+
+# github repo
+
+https://github.com/jakekara/datab.js
+
+# live demo
+
+https://jakekara.github.io/datab.js/demo/
