@@ -16577,10 +16577,14 @@ Object.defineProperty(exports, '__esModule', { value: true });
  *        drop_col - drop a column
  *        drop_row - drop a row
  *       
- *       append_to - append as an html table to a d3 selection
  *         to_json - create a json string of the data
  *          to_csv - output a csv
  *          to_obj - output as an array of (dict-like) objects
+ *
+ *      from_input - create data object from a file input selection 
+ *                   ( csv files only )
+ *        from_obj - create data object from an array of dict-like
+ *                   row objects
  * 
  */
 
@@ -16588,10 +16592,14 @@ const d3 = require("d3");
 
 /* 
  * data constructor - create a data object from a two-dimensional array
- *    args: arr - a matrix (2d-array)
+ *    args: arr - a matrix (2d-array) with column headers
  */
 var data = function( matrix )
 {
+
+    if ( typeof( matrix ) == "undefined" )
+	var matrix = [[]];
+    
     this.__rows = matrix;
     this.__cols = d3.transpose(matrix);
     
@@ -16614,7 +16622,6 @@ var data = function( matrix )
 }
 
 exports.data = data;
-
 
 /* 
  * copy - get a copy of the current object 
@@ -16917,6 +16924,8 @@ ui.prototype.draw = function( )
 
     this.drop_mode( this.drop_mode() );
     this.edit_mode( this.edit_mode() );
+
+    return this;
 
 }
 

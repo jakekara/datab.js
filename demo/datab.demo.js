@@ -73,9 +73,22 @@ console.log(d);
 // you need something to append it to (a d3 selection)
 if ( typeof( document ) != "undefined" )
 {
+    var cont = d3.select( "#container" );
+    var cont_input = cont.append("div");
+
+    var edit_mode = cont_input.append("button")
+	.text("edit column name mode");
+
+    var drop_mode = cont_input.append("button")
+	.text("drop column mode");
+    
+    var file_input = cont_input.append("input")
+	.attr("type", "file");
+    
+    var cont_table = cont.append("div");
     dui = new datab.ui()
 	.obj(d)
-	.container(d3.select( "#container" ));
+	.container(cont_table);
     
     dui.draw()
     
@@ -87,6 +100,12 @@ if ( typeof( document ) != "undefined" )
 
     console.log( "setting drop mode to invalid value ");
     
-    dui.drop_mode( "true" );
+    // dui.drop_mode( "true" );
+
+    d.from_input(file_input, function(d){
+	// console.log("read data from file", d);
+	dui.obj(d).draw();
+    });
 }
+
 
