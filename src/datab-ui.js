@@ -191,7 +191,7 @@ ui.prototype.edit_mode = function( val )
 
     if ( this.__edit_mode == false )
     {
-	this.unhandle_clicks();
+	// this.unhandle_clicks();
 	return;
     }
 
@@ -229,7 +229,7 @@ ui.prototype.drop_mode = function( val )
 
     if ( this.__drop_mode == false )
     {
-	this.unhandle_clicks();
+	// this.unhandle_clicks();
 	return;
     }
 

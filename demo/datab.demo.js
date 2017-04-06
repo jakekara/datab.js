@@ -87,12 +87,14 @@ if ( typeof( document ) != "undefined" )
     var edit_mode = cont_input.append("button")
 	.text("edit column name mode")
 	.on("click", function(){
+
 	    dui.edit_mode(!dui.edit_mode());
+	    
 	    if (dui.edit_mode())
 		msg.text("edit mode enabled. click a column or row header twice to edit");
 	    else
 		msg.text("edit mode disabled.")
-	    
+	    dui.draw();
 	});
 
     var drop_mode = cont_input.append("button")
@@ -101,7 +103,7 @@ if ( typeof( document ) != "undefined" )
 	    dui.drop_mode(!dui.drop_mode());
 
 	    if (dui.drop_mode())
-		msg.text("drop mode enabled. click a column or row header twice to edit");
+		msg.text("drop mode enabled. click a column or row header to drop");
 	    else
 		msg.text("drop mode disabled.")
 
@@ -112,6 +114,7 @@ if ( typeof( document ) != "undefined" )
 	.text("transpose table")
     	.on("click", function(){
 	    dui.obj(dui.obj().transpose(dui.obj().transpose())).draw();
+	    dui.draw();
 	});
 
     var download = cont_input.append("button")
@@ -127,7 +130,6 @@ if ( typeof( document ) != "undefined" )
 	    document.body.appendChild(link);
 	    link.click();
             document.body.removeChild(link);
-	    
 	    
 	})
 
