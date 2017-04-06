@@ -41,3 +41,7 @@ https://github.com/jakekara/datab.js
 # live demo
 
 https://jakekara.github.io/datab.js/demo/
+
+# docs (skimpy)
+
+https://github.com/jakekara/datab.js/tree/master/docs
