@@ -108,6 +108,8 @@ if ( typeof( document ) != "undefined" )
 	    else
 		msg.text("drop mode disabled.")
 
+	    dui.draw();
+
 	});
 
 
