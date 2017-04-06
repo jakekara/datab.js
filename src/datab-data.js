@@ -13,10 +13,14 @@
  *        drop_col - drop a column
  *        drop_row - drop a row
  *       
- *       append_to - append as an html table to a d3 selection
  *         to_json - create a json string of the data
  *          to_csv - output a csv
  *          to_obj - output as an array of (dict-like) objects
+ *
+ *      from_input - create data object from a file input selection 
+ *                   ( csv files only )
+ *        from_obj - create data object from an array of dict-like
+ *                   row objects
  * 
  */
 
