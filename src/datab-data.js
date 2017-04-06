@@ -28,10 +28,14 @@ const d3 = require("d3");
 
 /* 
  * data constructor - create a data object from a two-dimensional array
- *    args: arr - a matrix (2d-array)
+ *    args: arr - a matrix (2d-array) with column headers
  */
 var data = function( matrix )
 {
+
+    if ( typeof( matrix ) == "undefined" )
+	var matrix = [[]];
+    
     this.__rows = matrix;
     this.__cols = d3.transpose(matrix);
     
@@ -54,7 +58,6 @@ var data = function( matrix )
 }
 
 exports.data = data;
-
 
 /* 
  * copy - get a copy of the current object 
