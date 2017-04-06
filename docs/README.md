@@ -22,3 +22,14 @@ core functions:
 # databl.ui
 
 functions for use in browser
+
+              ui - constructor
+             obj - accessor (getter/setter for this ui object's 
+                   datab.data object
+       container - accessor for this object's container (d3 selection)
+            draw - draw table in d3 selection
+       from_html - update the datab.data object by reading from the
+                   HTML table
+       edit_mode - accessor for column/row header editing mode
+       drop_mode - access for column/row drop mode
+            drop - drop a row or column and redraw the table
