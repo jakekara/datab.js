@@ -1,4 +1,5 @@
-#datab.data
+# datab.data
+
              data - constructor
              copy - get a copy of a data object
             index - set or get the col or row index
