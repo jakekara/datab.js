@@ -93,6 +93,8 @@ ui.prototype.draw = function( )
     this.drop_mode( this.drop_mode() );
     this.edit_mode( this.edit_mode() );
 
+    return this;
+
 }
 
 /*
