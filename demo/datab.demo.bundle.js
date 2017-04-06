@@ -75,16 +75,63 @@ console.log(d);
 if ( typeof( document ) != "undefined" )
 {
     var cont = d3.select( "#container" );
+
+    var msg = cont.append("div")
+	.text("welcome to datab.js demo");
+    
     var cont_input = cont.append("div");
 
-    var edit_mode = cont_input.append("button")
-	.text("edit column name mode");
-
-    var drop_mode = cont_input.append("button")
-	.text("drop column mode");
-    
     var file_input = cont_input.append("input")
 	.attr("type", "file");
+
+    
+    var edit_mode = cont_input.append("button")
+	.text("edit column name mode")
+	.on("click", function(){
+	    dui.edit_mode(!dui.edit_mode());
+	    if (dui.edit_mode())
+		msg.text("edit mode enabled. click a column or row header twice to edit");
+	    else
+		msg.text("edit mode disabled.")
+	    
+	});
+
+    var drop_mode = cont_input.append("button")
+	.text("drop column mode")
+    	.on("click", function(){
+	    dui.drop_mode(!dui.drop_mode());
+
+	    if (dui.drop_mode())
+		msg.text("drop mode enabled. click a column or row header twice to edit");
+	    else
+		msg.text("drop mode disabled.")
+
+	});
+
+
+    var drop_mode = cont_input.append("button")
+	.text("transpose table")
+    	.on("click", function(){
+	    dui.obj(dui.obj().transpose(dui.obj().transpose())).draw();
+	});
+
+    var download = cont_input.append("button")
+	.text("download")
+	.on("click", function(){
+
+	    var url = URL.createObjectURL(dui.obj().to_csvblob());
+            var link = document.createElement("a");
+
+	    link.setAttribute("href", url);
+	    link.setAttribute("download", 'datab.js.demo.csv');
+	    link.style.visibility = "hidden";
+	    document.body.appendChild(link);
+	    link.click();
+            document.body.removeChild(link);
+	    
+	    
+	})
+
     
     var cont_table = cont.append("div");
     dui = new datab.ui()
