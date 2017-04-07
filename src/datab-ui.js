@@ -76,7 +76,8 @@ ui.prototype.draw = function( )
     var thead = table.append( "thead" );
     var tbody = table.append( "tbody" );
 
-    thead.append("td").text("");
+    // commented out to prevent drawing row index;
+    // thead.append("td").text("");
     
     var thead_cols = thead.selectAll( "th" )
 	.data( this.obj().index( "col" ) )
@@ -95,8 +96,8 @@ ui.prototype.draw = function( )
     	.attr( "data-row", function(d, i){ return i; } )
     	// .attr( "data-row-head", function(d, i){ return i; } )
 
-    var row_index = this.obj().index( "row" );
-
+    // commented out to prevent drawing row index
+    // var row_index = this.obj().index( "row" );
     // tbody_rows.append( "th" )
     // 	.attr("data-row-head", function(d, i){ return i; } )
     // 	.text( function(d, i){ return row_index[i]; } );

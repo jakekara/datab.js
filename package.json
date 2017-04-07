@@ -1,6 +1,6 @@
 {
   "name": "datab",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "tabular data refining ",
   "main": "src/datab.js",
   "scripts": {
