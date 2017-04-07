@@ -73,7 +73,7 @@ ui.prototype.draw = function( )
     
     var table = sel.append( "table" );
 
-    var thead = table.append( "thead" );
+    var thead = table.append( "thead" ).append("tr");
     var tbody = table.append( "tbody" );
 
     // commented out to prevent drawing row index;
