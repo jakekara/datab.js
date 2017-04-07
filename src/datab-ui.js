@@ -97,9 +97,9 @@ ui.prototype.draw = function( )
 
     var row_index = this.obj().index( "row" );
 
-    tbody_rows.append( "th" )
-	.attr("data-row-head", function(d, i){ return i; } )
-	.text( function(d, i){ return row_index[i]; } );
+    // tbody_rows.append( "th" )
+    // 	.attr("data-row-head", function(d, i){ return i; } )
+    // 	.text( function(d, i){ return row_index[i]; } );
 
     var row_cells = tbody_rows.selectAll( "td" )
 	.data( function( d, i ){ return d; } )

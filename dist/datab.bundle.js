@@ -16850,6 +16850,20 @@ data.prototype.from_input = function( sel, callback )
 },{"d3":1}],3:[function(require,module,exports){
 /*
  * datab-ui.js - extend the datab-data object with browser functionality
+ * 
+ * functions are 
+ * 
+ *             ui - constructor
+ *            obj - accessor (getter/setter for this ui object's 
+ *                  datab.data object
+ *      container - accessor for this object's container (d3 selection)
+ *           draw - draw table in d3 selection
+ *      from_html - update the datab.data object by reading from the
+ *                  HTML table
+ *      edit_mode - accessor for column/row header editing mode
+ *      drop_mode - access for column/row drop mode
+ *           drop - drop a row or column and redraw the table
+ *       
  */
 
 const d3 = require( "d3" );
@@ -16865,6 +16879,10 @@ var ui = function( )
 
 exports.ui = ui;
 
+/*
+ * obj - set or get this object's datab.data object
+ *     args: data_obj must be a datab.data instance
+ */
 ui.prototype.obj = function( datab_obj )
 {
     if ( typeof( datab_obj ) == "undefined" )
@@ -16929,9 +16947,9 @@ ui.prototype.draw = function( )
 
     var row_index = this.obj().index( "row" );
 
-    tbody_rows.append( "th" )
-	.attr("data-row-head", function(d, i){ return i; } )
-	.text( function(d, i){ return row_index[i]; } );
+    // tbody_rows.append( "th" )
+    // 	.attr("data-row-head", function(d, i){ return i; } )
+    // 	.text( function(d, i){ return row_index[i]; } );
 
     var row_cells = tbody_rows.selectAll( "td" )
 	.data( function( d, i ){ return d; } )
@@ -17041,7 +17059,7 @@ ui.prototype.edit_mode = function( val )
 
     if ( this.__edit_mode == false )
     {
-	this.unhandle_clicks();
+	// this.unhandle_clicks();
 	return;
     }
 
@@ -17079,7 +17097,7 @@ ui.prototype.drop_mode = function( val )
 
     if ( this.__drop_mode == false )
     {
-	this.unhandle_clicks();
+	// this.unhandle_clicks();
 	return;
     }
 
