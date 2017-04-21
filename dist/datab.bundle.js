@@ -16589,7 +16589,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
  * 
  */
 
-const d3 = require("d3");
+if (typeof(d3) == "undefined")
+{
+    const d3 = require("d3");
+}
 
 /* 
  * data constructor - create a data object from a two-dimensional array
@@ -16866,7 +16869,11 @@ data.prototype.from_input = function( sel, callback )
  *       
  */
 
-const d3 = require( "d3" );
+if ( typeof(d3) == "undefined" )
+{
+    const d3 = require( "d3" );
+}
+
 const data = require( "./datab-data.js" )["data"];
 
 var ui = function( )

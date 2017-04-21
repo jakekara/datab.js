@@ -16,7 +16,11 @@
  *       
  */
 
-const d3 = require( "d3" );
+if ( typeof(d3) == "undefined" )
+{
+    const d3 = require( "d3" );
+}
+
 const data = require( "./datab-data.js" )["data"];
 
 var ui = function( )

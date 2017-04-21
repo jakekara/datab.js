@@ -25,7 +25,10 @@
  * 
  */
 
-const d3 = require("d3");
+if (typeof(d3) == "undefined")
+{
+    const d3 = require("d3");
+}
 
 /* 
  * data constructor - create a data object from a two-dimensional array
