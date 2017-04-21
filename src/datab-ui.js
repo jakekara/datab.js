@@ -16,12 +16,15 @@
  *       
  */
 
-if ( typeof(d3) == "undefined" )
-{
-    const d3 = require( "d3" );
-}
+// if ( typeof(d3) == "undefined" )
+// {
+    // const d3 = require( "d3" );
+// }
 
-const data = require( "./datab-data.js" )["data"];
+import * as d3 from "d3";
+
+import {data} from "./datab-data.js"
+// const data = require( "./datab-data.js" )["data"];
 
 var ui = function( )
 {
@@ -31,7 +34,8 @@ var ui = function( )
     return this;
 }
 
-exports.ui = ui;
+export {ui}
+// exports.ui = ui;
 
 /*
  * obj - set or get this object's datab.data object
