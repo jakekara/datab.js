@@ -153,7 +153,6 @@ data.prototype.add_row = function (  arr, id, index )
     if ( arr.length != this.cols().length )
 	throw "data.add_row: invalid array length";
 
-
     var tmp_rows = this.rows();
     var tmp_index = this.index( "row" );
     
@@ -184,8 +183,12 @@ data.prototype.to_obj = function()
     var ret = [];
 
     var cols = this.index( "col" );
-    this.rows().forEach( function( r ){
-	var obj = {};
+    // var row_index = this.index( "row" );
+    this.rows().forEach( function( r, i ){
+
+	var obj = {
+	    // "__index":row_index[i]
+	};
 	
 	r.forEach( function( a, i ){
 	    obj[cols[i]] = a;
@@ -220,7 +223,7 @@ data.prototype.to_jsonblob = function()
  */
 data.prototype.to_csv = function( index_col, index_row )
 {
-    return d3.csvFormat( this.to_obj() );
+    return d3.csvFormat( this.add_col(this.index( "row" ), "", 0 ).to_obj() );
 }
 
 /*
@@ -246,12 +249,20 @@ data.prototype.from_obj = function(obj)
     {
 	var obj_row = obj[i];
 	var row = [];
+
+	var undef = 0;
 	
 	for ( var c in col_index )
 	{
+	    if ( typeof(obj_row[col_index[c]]) == "undefined")
+	    {
+		undef++;
+	    }
 	    row.push(obj_row[col_index[c]]);
 	}
-	
+
+	if ( undef == row.length)
+	    continue;
 	rows.push(row);
     }
 

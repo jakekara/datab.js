@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <!-- load in d3 -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    
+    <!-- load in datab -->
+    
+    <script src="../../dist/datab.rollup-bundle.js"></script>
+    <!-- <script src="../../dist/datab.browser.min.js"></script> -->
+  </head>
+  <body>
+
+    <div id="container">
+      <style>
+	body {
+	font-family: arial;
+	}
+	#controls{
+	position: fixed;
+	top:0px;
+	background-color: white;
+	width: 100%;
+	}
+
+	#table-preview{
+	margin-top: 20px;
+	font-size: 10px;
+	}
+
+	#table-preview tbody td{
+	border-bottom: 1px solid lightgray;
+	}
+      </style>
+
+      <!-- controls -->
+      <div id="controls">
+	<input id="file-chooser" type="file"></input>
+	<button id="download-button">download</button>
+	<button id="transpose-button">transpose</button>
+	<button id="drop-mode-button">drop mode</button>
+	<button id="edit-mode-button">edit mode</button>
+      </div>
+      <!-- div to draw table in -->
+      <div id="table-preview"></div>
+    </div>
+
+    <!-- load in the script for this app -->
+    <script src="table-edit-demo.js"></script>
+  </body>
+</html>

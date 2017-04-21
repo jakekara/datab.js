@@ -3,11 +3,14 @@
 #
 # CHANGELOG
 #
+# 4.21.2017 - switched to rollup
+#
 # 4.19.2017 - added forbrowser, with d3 excluded
 #             bundling it in was silly...
 #
 
-all: forbrowser demo bundle # datab.demo.bundle.js #
+default: forbrowser
+# all: forbrowser demo bundle # datab.demo.bundle.js #
 
 # create demo
 demo: src/datab.js src/datab-ui.js src/datab-data.js demo/datab.demo.js
@@ -17,8 +20,7 @@ demo: src/datab.js src/datab-ui.js src/datab-data.js demo/datab.demo.js
 #    note: excludes d3, so it needs to be included elsewhere
 #
 forbrowser: src/datab.js src/datab-ui.js src/datab-data.js
-	browserify -x d3 src/datab.js > dist/datab.browser.js
-	uglifyjs dist/datab.browser.js -o dist/datab.browser.min.js
+	rollup --globals d3:d3 -c 
 
 # create a bundle that includes d3
 bundle: src/datab-data.js

@@ -85,7 +85,7 @@ ui.prototype.draw = function( )
     var tbody = table.append( "tbody" );
 
     // commented out to prevent drawing row index;
-    // thead.append("td").text("");
+    thead.append("td").text("");
     
     var thead_cols = thead.selectAll( "th" )
 	.data( this.obj().index( "col" ) )
@@ -105,10 +105,10 @@ ui.prototype.draw = function( )
     	// .attr( "data-row-head", function(d, i){ return i; } )
 
     // commented out to prevent drawing row index
-    // var row_index = this.obj().index( "row" );
-    // tbody_rows.append( "th" )
-    // 	.attr("data-row-head", function(d, i){ return i; } )
-    // 	.text( function(d, i){ return row_index[i]; } );
+    var row_index = this.obj().index( "row" );
+    tbody_rows.append( "th" )
+    	.attr("data-row-head", function(d, i){ return i; } )
+    	.text( function(d, i){ return row_index[i]; } );
 
     var row_cells = tbody_rows.selectAll( "td" )
 	.data( function( d, i ){ return d; } )
@@ -186,7 +186,7 @@ ui.prototype.from_html = function(  )
     }
 
     this.obj(new data( matrix )
-	     .index( "row", row_index )
+	     .index( "row", row_index ) // phasing out row indexing
 	     .index( "col", col_index ) );
     
 }
@@ -219,15 +219,18 @@ ui.prototype.edit_mode = function( val )
     if ( this.__edit_mode == false )
     {
 	// this.unhandle_clicks();
-	return;
+	return this;
     }
 
     var that = this;
     this.handle_clicks(function(){
 
-	that.container().selectAll( "th" ).attr( "contenteditable", false );
+	console.log("handling", this);
+
+	that.container().selectAll( "th" ).attr( "contenteditable", null );
 
 	d3.select( this ).attr( "contenteditable", true );
+	
 	d3.select( this ).on( "blur", function(){
 	    that.from_html();
 	    that.draw();
@@ -257,7 +260,7 @@ ui.prototype.drop_mode = function( val )
     if ( this.__drop_mode == false )
     {
 	// this.unhandle_clicks();
-	return;
+	return this;
     }
 
     var that = this;
@@ -305,3 +308,18 @@ ui.prototype.drop = function( row_col, n )
     this.draw();
 }
 
+ui.prototype.download = function( filename )
+{
+    var filename = filename || "data.csv";
+
+    var url = URL.createObjectURL(this.obj().to_csvblob());
+    var link = document.createElement("a");
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+}
