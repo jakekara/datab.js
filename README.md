@@ -23,6 +23,13 @@ context, outside of the browser.
 * output to JSON, js objects, CSV format CSV blobs
 * render as editable HTML tables
 
+# Design question: What to do about row indexes? Do I need them?
+
+I'm not sure whether I want to keep the notion of row indeces, or if I should
+only have column indeces.
+
+The only compelling reason to keep them is that, if I don't, then what do I do
+with column headers when a table is transposed?
 
 # status: early
 
