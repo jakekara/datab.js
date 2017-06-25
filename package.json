@@ -3,7 +3,7 @@
     "repository":"github.com/jakekara/datab.js",
     "version": "0.0.16",
     "description": "tabular data refining ",
-    "main":"./dist/datab.rollup-bundle-f4.js",
+    "main":"./dist/datab.rollup-bundle.js",
     "scripts": {
 	"test": "echo \"Error: no test specified\" && exit 1",
 	"build": "rollup -c",
