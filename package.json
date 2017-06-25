@@ -1,19 +1,27 @@
 {
-  "name": "datab",
-  "version": "0.0.15",
-  "description": "tabular data refining ",
-  "main": "src/datab.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Jake Kara",
-  "license": "GPL-3.0",
-  "dependencies": {
-    "d3": "^4.7.4"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-uglify": "^1.0.2"
-  }
+    "name": "datab",
+    "repository":"github.com/jakekara/datab.js",
+    "version": "0.0.16",
+    "description": "tabular data refining ",
+    "main":"./dist/datab.rollup-bundle-f4.js",
+    "scripts": {
+	"test": "echo \"Error: no test specified\" && exit 1",
+	"build": "rollup -c",
+	"dev": "rollup -c -w"
+    },
+    "author": "Jake Kara",
+    "license": "GPL-3.0",
+    "dependencies": {
+	"d3": "^4.7.4",
+	"the-answer": "^1.0.0"
+    },
+    "devDependencies": {
+	"babel-cli": "^6.24.1",
+	"rollup": "^0.43.0",
+	"rollup-plugin-babel": "^2.7.1",
+	"rollup-plugin-json": "^2.3.0",
+	"rollup-plugin-node-resolve": "^3.0.0",
+	"rollup-plugin-uglify": "^1.0.2",
+	"rollup-watch": "^4.0.0"
+    }
 }
