@@ -5,6 +5,9 @@
  * 
  *            data - constructor
  * 
+ *            rows - retrieve matrix of rows
+ *            cols - retrieve matrix of columns
+ * 
  *            copy - get a copy of a data object
  *           index - set or get the col or row index
  *       transpose - transpose the table

@@ -3,6 +3,9 @@
 #
 # CHANGELOG
 #
+# 6.25.2017 - Discontinuing this Makefile
+#             in favor of package.json/rollup
+#
 # 4.21.2017 - switched to rollup
 #
 # 4.19.2017 - added forbrowser, with d3 excluded
