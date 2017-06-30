@@ -91,13 +91,56 @@ describe('datab.data', function(){
 	   function(){
 	       var dobj = new datab.data([[1,2,3],
 					  [4,5,6]]);
-	       assert.ok(JSON.stringify(dobj.cols()) ==
-			 JSON.stringify([
-			     [1,4],
-			     [2,5],
-			     [3,6]]));
+	       assert.ok(arrays_equal(dobj.cols(),
+				      [[1,4],
+				       [2,5],
+				       [3,6]]));
 	   });
+
     });
+
+    describe(".cols() and .rows() work as expected", function(){
+	it(".transpose().cols() equals .rows()", function(){
+	    var dobj = new datab.data([[1,2,3],
+				       [4,5,6],
+				       [7,8,9]]);
+	    assert.ok(arrays_equal(dobj.rows(), dobj.transpose().cols()));
+	})
+	it(".transpose().rows() equals .cols()", function(){
+	    var dobj = new datab.data([[1,2,3],
+				       [4,5,6],
+				       [7,8,9]]);
+	    assert.ok(arrays_equal(dobj.cols(), dobj.transpose().rows()));
+	})
+	it(".transpose().cols() not equal to .cols()", function(){
+	    var dobj = new datab.data([[1,2,3],
+				       [4,5,6],
+				       [7,8,9]]);
+	    assert.ok(!arrays_equal(dobj.rows(), dobj.transpose().rows()));
+	})
+	it(".transpose().rows() not equal to .rows()", function(){
+	    var dobj = new datab.data([[1,2,3],
+				       [4,5,6],
+				       [7,8,9]]);
+	    assert.ok(!arrays_equal(dobj.cols(), dobj.transpose().cols()));
+	})
+    });
+
+    describe("index defaults correctly", function(){
+	it(".index() of a three-column returns ['0','1','2']", function(){
+	    var dobj = new datab.data([[1,2,3],
+				       [4,5,6],
+				       [7,8,9]]);
+	    assert.ok(arrays_equal(dobj.index("row"),
+				   ["0","1","2"]));
+	    assert.ok(arrays_equal(dobj.index("col"),
+				   ["0","1","2"]));
+	    assert.ok(arrays_equal(dobj.index(),
+				   {"row":["0","1","2"],
+				    "col":["0","1","2"]}));
+	});
+    });
+	   
 });
 
 

@@ -8,9 +8,10 @@
  *            rows - retrieve matrix of rows
  *            cols - retrieve matrix of columns
  * 
+ *       transpose - transpose the table
  *            copy - get a copy of a data object
  *           index - set or get the col or row index
- *       transpose - transpose the table
+ * 
  *         add_col - add a column
  *         add_row - add a row
  *        drop_col - drop a column
