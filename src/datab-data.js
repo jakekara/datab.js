@@ -8,18 +8,18 @@
  *            rows - retrieve matrix of rows
  *            cols - retrieve matrix of columns
  * 
+ *           index - set or get the col or row index 
  *       transpose - transpose the table
  *            copy - get a copy of a data object
- *           index - set or get the col or row index
  * 
  *         add_col - add a column
  *         add_row - add a row
  *        drop_col - drop a column
  *        drop_row - drop a row
  *       
+ *          to_obj - output as an array of (dict-like) objects
  *         to_json - create a json string of the data
  *          to_csv - output a csv
- *          to_obj - output as an array of (dict-like) objects
  *      to_csvblob - create a downbloadable csv blob
  *
  *      from_input - create data object from a file input selection 
@@ -39,19 +39,26 @@ import * as d3 from "d3";
 var data = function( matrix )
 {
 
+    // default to empty 2d array
     if ( typeof( matrix ) == "undefined" )
 	var matrix = [[]];
-    
+
+    // store rows for O(n) retrieval after initial
+    // operation. sacrifices memory efficiency
     this.__rows = matrix;
     this.__cols = d3.transpose(matrix);
-    
+
+    // get the default index of an array of rows or cols
     var index_arr = function(arr){
+
+	// otherwise, return an array of integers (as strings)
 	return d3.range(arr.length)
 	    .map(function(a){
 		return String(a);
 	    });
     }
-    
+
+    // create the default indexes
     this.__index = {
 	"row" : index_arr(this.__rows),
 	"col" : index_arr(this.__cols)
@@ -65,7 +72,6 @@ var data = function( matrix )
 
 export {data};
 
-// TODO - Add .equals() to test equality of two datab.data objects
 /**
  * equals - test that two datab.data objects are equal
  * @a - first object
@@ -73,7 +79,7 @@ export {data};
  */
 data.equals = function(a, b){
 
-    if (( ! a instanceof datab.data ) || (b ! instanceof datab.data))
+    if (( ! a instanceof datab.data ) || (!b instanceof datab.data))
 	throw "ERROR: Values must be instances of datab.data";
     
     return self.to_json(a) == self.to_json(b);
@@ -204,18 +210,30 @@ data.prototype.add_col = function ( arr, id, index )
 
 /** 
  * to_obj - output array of row (dict-like) objects
+ * @arg {boolean} index - whether or to include the __index as a row property
  */
-data.prototype.to_obj = function()
+data.prototype.to_obj = function(index)
 {
+    var index = index | false;
     var ret = [];
 
     var cols = this.index( "col" );
-    // var row_index = this.index( "row" );
+    var row_index = this.index( "row" );
+    
     this.rows().forEach( function( r, i ){
 
 	var obj = {
-	    // "__index":row_index[i]
+	    // on the fence about whether to store the
+	    // row index in this manner; possible collisions
+	    // if a column is named __index, and duplication
+	    // issues when deserializing back datab.data object
+	    
+	    // "__index":row_index[i] 
+
 	};
+
+	// ok, this is the compromise; I'll make it optional
+	if (index) obj.__index = row_index[i];
 	
 	r.forEach( function( a, i ){
 	    obj[cols[i]] = a;
@@ -263,9 +281,10 @@ data.prototype.to_csv = function( index_col, index_row )
 /**
  * to_json - output json string
  */
-data.prototype.to_json = function()
+data.prototype.to_json = function(index)
 {
-    return JSON.stringify( this.to_obj() );
+    var index = index || false;
+    return JSON.stringify( this.to_obj(index) );
 }
 
 /**
@@ -276,33 +295,79 @@ data.prototype.from_obj = function(obj)
 {
     if ( obj.length < 1 )
 	return [[]];
-    
+
+    // base the column index (headers) off the first row object
     var col_index = Object.keys( obj[0] );
+    var row_index = [];
     var rows = [];
+
+    // check if rows contain __index property
+    var row_index_i = col_index.indexOf("__index");
+
+    if ( row_index_i >= 0)
+	col_index.splice(row_index_i, 1);
     
     for ( var i in obj )
     {
+
 	var obj_row = obj[i];
+
+	var key_count = Object.keys(obj_row).length;
+	if ( row_index_i >= 0 ) key_count -= 1; // don't count __index 
+
+	if ( key_count != col_index.length )
+	    throw "Error: Shape mismatch. Exepcted " + col_index.length
+	    + " columns. Got " + Object.keys(obj_row).length ;
+
 	var row = [];
 
-	var undef = 0;
+	// count of row properties not in the first object ("extraneous" values)
+	// var undef = 0;
 	
 	for ( var c in col_index )
 	{
 	    if ( typeof(obj_row[col_index[c]]) == "undefined")
-	    {
-		undef++;
-	    }
+		throw "Error: Row is missing values!"
+		// undef++;
 	    row.push(obj_row[col_index[c]]);
 	}
 
-	if ( undef == row.length)
-	    continue;
+	// if the row does not have any of the properties, drop it
+	// TODO - Should probably be more strict here
+	// if ( undef == row.length)
+	//     continue;
+	
+	// OK, here's more strict:
+	// if ( undef > 0)
+	//     throw "Error: Row is missing values"
+	//     // continue;
+
+	if ( row_index_i >= 0)
+	{
+	    row_index.push(obj_row["__index"]);
+	}
+	
 	rows.push(row);
     }
 
     var ret = new data( rows );
     ret.index( "col", col_index );
+
+    if ( row_index_i >= 0 )
+	ret.index( "row", row_index );
+
+    // if there's a row index, set that, too
+    // var row_index_i = col_index.indexOf("__index");
+    
+    // if ( row_index_i >= 0 ){
+
+    // 	ret.index( "row", rows.map(function(a) {
+    // 	    return a[row_index_i];
+    // 	}))
+
+    // 	return ret.drop_col("__index");
+    // }
+
     
     return ret;
 }

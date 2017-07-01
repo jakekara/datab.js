@@ -1,0 +1,11 @@
+
+Serialization and deserialization
+
+	1. Make from_object recognize whether a column is called __index. If so,
+   	   use that as the row index.
+
+	   This will necessarily prevent the use of data with a column
+	   named __index.
+
+	2. Throw error when data shape is wrong 
+

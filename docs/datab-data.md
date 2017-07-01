@@ -5,20 +5,23 @@
 
 * [data](#data)
     * [new data(matrix)](#new_data_new)
-    * [.copy()](#data+copy)
-    * [.transpose()](#data+transpose)
-    * [.index([axis], [arr])](#data+index)
-    * [.drop_row(id)](#data+drop_row)
-    * [.drop_col()](#data+drop_col)
-    * [.add_row(arr, id, index)](#data+add_row)
-    * [.add_col(arr, id, index)](#data+add_col)
-    * [.to_obj()](#data+to_obj)
-    * [.to_csvblob()](#data+to_csvblob)
-    * [.to_jsonblob()](#data+to_jsonblob)
-    * [.to_csv()](#data+to_csv)
-    * [.to_json()](#data+to_json)
-    * [.from_obj(obj)](#data+from_obj)
-    * [.from_input(sel, callback)](#data+from_input)
+    * _instance_
+        * [.copy()](#data+copy)
+        * [.transpose()](#data+transpose)
+        * [.index([axis], [arr])](#data+index)
+        * [.drop_row(id)](#data+drop_row)
+        * [.drop_col()](#data+drop_col)
+        * [.add_row(arr, id, index)](#data+add_row)
+        * [.add_col(arr, id, index)](#data+add_col)
+        * [.to_obj(index)](#data+to_obj)
+        * [.to_csvblob()](#data+to_csvblob)
+        * [.to_jsonblob()](#data+to_jsonblob)
+        * [.to_csv()](#data+to_csv)
+        * [.to_json()](#data+to_json)
+        * [.from_obj(obj)](#data+from_obj)
+        * [.from_input(sel, callback)](#data+from_input)
+    * _static_
+        * [.equals()](#data.equals)
 
 <a name="new_data_new"></a>
 
@@ -101,10 +104,15 @@ add_col - add a column
 
 <a name="data+to_obj"></a>
 
-### data.to_obj()
+### data.to_obj(index)
 to_obj - output array of row (dict-like) objects
 
 **Kind**: instance method of [<code>data</code>](#data)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>boolean</code> | whether or to include the __index as a row property |
+
 <a name="data+to_csvblob"></a>
 
 ### data.to_csvblob()
@@ -152,3 +160,11 @@ from_input - read a csv from a file input field
 | sel | d3 selection to attatch to |
 | callback | function to call when file is selected |
 
+<a name="data.equals"></a>
+
+### data.equals()
+equals - test that two datab.data objects are equal
+
+**Kind**: static method of [<code>data</code>](#data)  
+**A**: - first object  
+**B**: - second object  
