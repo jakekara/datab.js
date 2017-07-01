@@ -1,4 +1,4 @@
-/*
+/**
  * datab-data.js - object for tabular data and basic transformations
  *
  *    functions are 
@@ -34,7 +34,7 @@ import * as d3 from "d3";
 /** 
  * create a data object from a two-dimensional array
  * @constructor
- * @param {{matrix}} arr - a matrix (2d-array) of the table
+ * @arg matrix - a matrix (2d-array) of the table
  */
 var data = function( matrix )
 {
@@ -65,7 +65,21 @@ var data = function( matrix )
 
 export {data};
 
-/* 
+// TODO - Add .equals() to test equality of two datab.data objects
+/**
+ * equals - test that two datab.data objects are equal
+ * @a - first object
+ * @b - second object
+ */
+data.equals = function(a, b){
+
+    if (( ! a instanceof datab.data ) || (b ! instanceof datab.data))
+	throw "ERROR: Values must be instances of datab.data";
+    
+    return self.to_json(a) == self.to_json(b);
+}
+
+/**
  * copy - get a copy of the current object 
  */
 data.prototype.copy = function()
@@ -76,8 +90,9 @@ data.prototype.copy = function()
 }
 
 
-/* 
- * transpose - return a copy of the table transposed
+/**
+ * transpose - return a copy of the current object with the table
+ * transposed
  */
 data.prototype.transpose = function()
 {
@@ -87,8 +102,10 @@ data.prototype.transpose = function()
 }
 
 
-/* 
- * index - set an row or column index
+/** 
+ * index - get or set a row or column index
+ * @arg [axis] - "row" or "col"
+ * @arg [arr] - the new array of index values
  */
 data.prototype.index = function( axis, arr )
 {
@@ -108,8 +125,9 @@ data.prototype.index = function( axis, arr )
 }
 
 
-/*
+/** 
  * drop_row - drop a row 
+ * @arg id - the index value of the row to drop
  */
 data.prototype.drop_row = function( id )
 {
@@ -126,24 +144,32 @@ data.prototype.drop_row = function( id )
 	.index( "col", this.index( "col" ) );
 }
 
-/*
+/** 
  * drop_col - drop a column
+ * arg id - the index of the column to drop
  */
 data.prototype.drop_col = function( id )
 {
     return this.transpose().drop_row( id ).transpose();
 }
 
-/*
- * add_row - add a row
+/** 
+ * add_row - add a row 
+ * @arg arr - the array of values: must be equal in
+ * length to the number of columns
+ * @arg id - the id of the new row to be added
+ * @arg index - the position to insert the row
  */
 data.prototype.add_row = function (  arr, id, index )
 {
+    // TODO - Add some sanity checks, make sure ID is not already used
+    // by an existing row, and make sure the index is a sane value
+    
     if ( typeof( index ) == "undefined" )
 	var index = this.cols().length;
 
-    if ( typeof( id ) == "undefined" )
-	var id = String( id );
+    if ( typeof( id ) == "undefined" ) 
+	var id = String( index );
 
     if ( typeof( arr ) == "undefined" )
 	throw "data.add_row: requires an array of values";
@@ -163,9 +189,12 @@ data.prototype.add_row = function (  arr, id, index )
     
 }
 
-
-/*
+/** 
  * add_col - add a column
+ * @arg arr - the array of values: must be equal in
+ * length to the number of rows
+ * @arg id - the id of the new col to be added
+ * @arg index - the position to insert the col
  */
 data.prototype.add_col = function ( arr, id, index )
 {
@@ -173,7 +202,7 @@ data.prototype.add_col = function ( arr, id, index )
 }
 
 
-/*
+/** 
  * to_obj - output array of row (dict-like) objects
  */
 data.prototype.to_obj = function()
@@ -199,32 +228,39 @@ data.prototype.to_obj = function()
     return ret;			 
 }
 
-/*
+/**
  * to_csvblob - create file-like csv blob
  */
 data.prototype.to_csvblob = function()
 {
-    return new Blob([this.to_csv()], { type: 'text/csv;charset=utf-8;' });
+    return new Blob([this.to_csv()], {
+	type: 'text/csv;charset=utf-8;'
+    });
 }
 
-/*
- * to_jsonblob - create file-like csv blob
+/** 
+ * to_jsonblob - create file-like json blob
  */
 data.prototype.to_jsonblob = function()
 {
-    return new Blob([this.to_json()], { type: 'application/json;charset=utf-8;' });
+    return new Blob([this.to_json()], {
+	type: 'application/json;charset=utf-8;'
+    });
 }
 
 
-/*
+/**
  * to_csv - output csv
  */
 data.prototype.to_csv = function( index_col, index_row )
 {
+    // TODO - Can't quite remember why this accepts parameters. I think I
+    // was overthinking it
+    
     return d3.csvFormat( this.add_col(this.index( "row" ), "", 0 ).to_obj() );
 }
 
-/*
+/**
  * to_json - output json string
  */
 data.prototype.to_json = function()
@@ -232,8 +268,9 @@ data.prototype.to_json = function()
     return JSON.stringify( this.to_obj() );
 }
 
-/*
+/**
  * from_obj - create datab.data object from an array of row objects
+ * @arg obj - a table expressed as an array of dicts
  */
 data.prototype.from_obj = function(obj)
 {
@@ -271,11 +308,14 @@ data.prototype.from_obj = function(obj)
 }
 
 
-/*
+/** 
  * from_input - read a csv from a file input field
+ * @arg sel - d3 selection to attatch to
+ * @arg callback - function to call when file is selected
  */
 data.prototype.from_input = function( sel, callback )
 {
+    // TODO - Maybe this function should be in the ui module
     
     sel.on("change", function(){
 	var reader = new FileReader();
@@ -292,7 +332,8 @@ data.prototype.from_input = function( sel, callback )
 
 	reader.onloadend = function( e )
 	{
-	    callback( new data([[]]).from_obj( d3.csvParse( reader.result )));
+	    callback( new data([[]])
+		      .from_obj( d3.csvParse( reader.result )));
 	}
 
 	reader.readAsText(file);

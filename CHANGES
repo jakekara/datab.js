@@ -2,8 +2,17 @@ CHANGES
 
 July 1, 2017
 
-     Using dox-docco for code documentation for now, but not totally
-     satisfied with it.
+     Using jsdoc-to-markdown for code documentation for now, but not
+     totally satisfied with it.
 
      About 30% through catching up on my test cases, using mocha. See the
      tests/ dir.
+
+     Not sure how to handle the notion of row indexes. They don't have an
+     analogy in in record-type JSON objects, since each row is dict-like
+     object in an array, and arrays do not have keys, which would be the
+     row "index." Instead, arrays can be thought of as having numeric keys
+     (the order). One option is to just store the row index in an __index
+     property of the row, and consider __index a reserved word that cannot
+     be used as a column name. 
+     

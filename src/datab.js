@@ -8,7 +8,6 @@
 // exports.ui  = ui; 
 // exports.data = data;
 
-import answer from 'the-answer';
 import {version} from '../package.json';
 import {data} from './datab-data.js';
 import {ui} from  './datab-ui.js';
