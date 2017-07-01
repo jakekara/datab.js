@@ -16,6 +16,10 @@ var arrays_equal = function(a1, a2)
     return JSON.stringify(a1) == JSON.stringify(a2);
 }
 
+var big_array = function(rows, cols){
+    var ret = [];
+}
+
 describe('Array', function() {
     describe('#indexOf()', function() {
 	it('should return -1 when the value is not present', function() {
