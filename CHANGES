@@ -1,0 +1,9 @@
+CHANGES
+
+July 1, 2017
+
+     Using dox-docco for code documentation for now, but not totally
+     satisfied with it.
+
+     About 30% through catching up on my test cases, using mocha. See the
+     tests/ dir.

@@ -29,16 +29,12 @@
  * 
  */
 
-// if (typeof(d3) == "undefined")
-// {
-// const d3 = require("d3");
-// }
-
 import * as d3 from "d3";
 
-/* 
- * data constructor - create a data object from a two-dimensional array
- *    args: arr - a matrix (2d-array) with column headers
+/** 
+ * create a data object from a two-dimensional array
+ * @constructor
+ * @param {{matrix}} arr - a matrix (2d-array) of the table
  */
 var data = function( matrix )
 {
@@ -68,8 +64,6 @@ var data = function( matrix )
 }
 
 export {data};
-
-// exports.data = data;
 
 /* 
  * copy - get a copy of the current object 

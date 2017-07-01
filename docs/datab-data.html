@@ -1,0 +1,240 @@
+<!DOCTYPE html><html><head><title>datab-data.js</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="stylesheet" media="all" href="http://aearly.github.com/dox-docco/static/docco.css" /></head><body><div id="container"><div id="background"></div><table cellpadding="0" cellspacing="0"><thead><tr><th class="docs"><h1>datab-data.js</h1></th><th class="code"></th></tr></thead><tbody><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>datab-data.js - object for tabular data and basic transformations</p><p>   functions are </p><pre><code>       data - constructor
+
+       rows - retrieve matrix of rows
+       cols - retrieve matrix of columns
+
+  transpose - transpose the table
+       copy - get a copy of a data object
+      index - set or get the col or row index
+
+    add_col - add a column
+    add_row - add a row
+   drop_col - drop a column
+   drop_row - drop a row
+
+    to_json - create a json string of the data
+     to_csv - output a csv
+     to_obj - output as an array of (dict-like) objects
+ to_csvblob - create a downbloadable csv blob
+
+ from_input - create data object from a file input selection 
+              ( csv files only )
+   from_obj - create data object from an array of dict-like
+              row objects
+</code></pre></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">d3</span> <span class="nx">from</span> <span class="s2">&quot;d3&quot;</span><span class="p">;</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>create a data object from a two-dimensional array</p><table class="tags"><tbody><tr><td><small><strong>@constructor</strong> </small></td><td><strong></strong></td><td>[object Object]</td></tr><tr><td><small><strong>@param</strong> [matrix] </small></td><td><strong>arr</strong></td><td>- a matrix (2d-array) of the table</td></tr></tbody></table></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">matrix</span> <span class="p">)</span>
+<span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span><span class="p">(</span> <span class="nx">matrix</span> <span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;undefined&quot;</span> <span class="p">)</span>
+	<span class="kd">var</span> <span class="nx">matrix</span> <span class="o">=</span> <span class="p">[[]];</span>
+    
+    <span class="k">this</span><span class="p">.</span><span class="nx">__rows</span> <span class="o">=</span> <span class="nx">matrix</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">__cols</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">transpose</span><span class="p">(</span><span class="nx">matrix</span><span class="p">);</span>
+    
+    <span class="kd">var</span> <span class="nx">index_arr</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">arr</span><span class="p">){</span>
+	<span class="k">return</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">range</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
+	    <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">){</span>
+		<span class="k">return</span> <span class="nb">String</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+	    <span class="p">});</span>
+    <span class="p">}</span>
+    
+    <span class="k">this</span><span class="p">.</span><span class="nx">__index</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="s2">&quot;row&quot;</span> <span class="o">:</span> <span class="nx">index_arr</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">__rows</span><span class="p">),</span>
+	<span class="s2">&quot;col&quot;</span> <span class="o">:</span> <span class="nx">index_arr</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">__cols</span><span class="p">)</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">rows</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">__rows</span><span class="p">;</span> <span class="p">};</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">cols</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">__cols</span><span class="p">;</span> <span class="p">};</span>
+    
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="p">{</span><span class="nx">data</span><span class="p">};</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>copy - get a copy of the current object</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">copy</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">data</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">rows</span><span class="p">()</span> <span class="p">)</span>
+	<span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;row&quot;</span> <span class="p">))</span>
+	<span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;col&quot;</span> <span class="p">))</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>transpose - return a copy of the table transposed</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">transpose</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">data</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">cols</span><span class="p">()</span> <span class="p">)</span>
+	<span class="p">.</span><span class="nx">index</span><span class="p">(</span><span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;col&quot;</span> <span class="p">))</span>
+	<span class="p">.</span><span class="nx">index</span><span class="p">(</span><span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;row&quot;</span> <span class="p">))</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>index - set an row or column index</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">index</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">axis</span><span class="p">,</span> <span class="nx">arr</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span><span class="p">(</span> <span class="nx">axis</span> <span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;undefined&quot;</span> <span class="p">)</span>
+	<span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">__index</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span><span class="p">(</span> <span class="nx">arr</span> <span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;undefined&quot;</span> <span class="p">)</span>
+	<span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">__index</span><span class="p">[</span><span class="nx">axis</span><span class="p">];</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">__index</span><span class="p">[</span><span class="nx">axis</span><span class="p">].</span><span class="nx">length</span> <span class="o">!=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="p">)</span>
+	<span class="k">throw</span> <span class="s2">&quot;data.index: array must be same length as axis &quot;</span><span class="p">;</span>
+
+    <span class="c1">// TODO - add a test to make sure values are unique</span>
+    
+    <span class="k">this</span><span class="p">.</span><span class="nx">__index</span><span class="p">[</span><span class="nx">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>drop_row - drop a row</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">drop_row</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">id</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nb">String</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">id_i</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;row&quot;</span> <span class="p">).</span><span class="nx">indexOf</span><span class="p">(</span> <span class="nx">id</span> <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">id_i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span>
+	<span class="k">throw</span> <span class="s2">&quot;data.drop_row: id not found&quot;</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">data</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">rows</span><span class="p">().</span><span class="nx">splice</span><span class="p">(</span> <span class="nx">id_i</span> <span class="p">))</span>
+	<span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;row&quot;</span><span class="p">,</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;row&quot;</span> <span class="p">).</span><span class="nx">splice</span><span class="p">(</span> <span class="nx">id_i</span> <span class="p">))</span>
+	<span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;col&quot;</span> <span class="p">)</span> <span class="p">);</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>drop_col - drop a column</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">drop_col</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">id</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">transpose</span><span class="p">().</span><span class="nx">drop_row</span><span class="p">(</span> <span class="nx">id</span> <span class="p">).</span><span class="nx">transpose</span><span class="p">();</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>add_row - add a row</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">add_row</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span>  <span class="nx">arr</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">index</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span><span class="p">(</span> <span class="nx">index</span> <span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;undefined&quot;</span> <span class="p">)</span>
+	<span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cols</span><span class="p">().</span><span class="nx">length</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span><span class="p">(</span> <span class="nx">id</span> <span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;undefined&quot;</span> <span class="p">)</span>
+	<span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nb">String</span><span class="p">(</span> <span class="nx">id</span> <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span><span class="p">(</span> <span class="nx">arr</span> <span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;undefined&quot;</span> <span class="p">)</span>
+	<span class="k">throw</span> <span class="s2">&quot;data.add_row: requires an array of values&quot;</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">!=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cols</span><span class="p">().</span><span class="nx">length</span> <span class="p">)</span>
+	<span class="k">throw</span> <span class="s2">&quot;data.add_row: invalid array length&quot;</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">tmp_rows</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">rows</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">tmp_index</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;row&quot;</span> <span class="p">);</span>
+    
+    <span class="nx">tmp_rows</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span> <span class="nx">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">arr</span> <span class="p">);</span>
+    <span class="nx">tmp_index</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span> <span class="nx">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">id</span> <span class="p">);</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">data</span> <span class="p">(</span> <span class="nx">tmp_rows</span> <span class="p">)</span>
+	<span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="nx">tmp_index</span> <span class="p">)</span>
+	<span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;col&quot;</span> <span class="p">)</span> <span class="p">);</span>
+    
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>add_col - add a column</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">add_col</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">arr</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">index</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">transpose</span><span class="p">().</span><span class="nx">add_row</span><span class="p">(</span> <span class="nx">arr</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">index</span> <span class="p">).</span><span class="nx">transpose</span><span class="p">();</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>to_obj - output array of row (dict-like) objects</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">to_obj</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="kd">var</span> <span class="nx">cols</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;col&quot;</span> <span class="p">);</span>
+    <span class="c1">// var row_index = this.index( &quot;row&quot; );</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">rows</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">i</span> <span class="p">){</span>
+
+	<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+	    <span class="c1">// &quot;__index&quot;:row_index[i]</span>
+	<span class="p">};</span>
+	
+	<span class="nx">r</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">i</span> <span class="p">){</span>
+	    <span class="nx">obj</span><span class="p">[</span><span class="nx">cols</span><span class="p">[</span><span class="nx">i</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">a</span><span class="p">;</span>
+	<span class="p">});</span>
+
+	<span class="nx">ret</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+	
+    <span class="p">});</span>
+    
+    <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>			 
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>to_csvblob - create file-like csv blob</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">to_csvblob</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Blob</span><span class="p">([</span><span class="k">this</span><span class="p">.</span><span class="nx">to_csv</span><span class="p">()],</span> <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;text/csv;charset=utf-8;&#39;</span> <span class="p">});</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>to_jsonblob - create file-like csv blob</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">to_jsonblob</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Blob</span><span class="p">([</span><span class="k">this</span><span class="p">.</span><span class="nx">to_json</span><span class="p">()],</span> <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;application/json;charset=utf-8;&#39;</span> <span class="p">});</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>to_csv - output csv</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">to_csv</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">index_col</span><span class="p">,</span> <span class="nx">index_row</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">csvFormat</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">add_col</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;row&quot;</span> <span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span> <span class="p">).</span><span class="nx">to_obj</span><span class="p">()</span> <span class="p">);</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>to_json - output json string</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">to_json</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">to_obj</span><span class="p">()</span> <span class="p">);</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>from_obj - create datab.data object from an array of row objects</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">from_obj</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="p">)</span>
+	<span class="k">return</span> <span class="p">[[]];</span>
+    
+    <span class="kd">var</span> <span class="nx">col_index</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span> <span class="nx">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">rows</span> <span class="o">=</span> <span class="p">[];</span>
+    
+    <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">obj</span> <span class="p">)</span>
+    <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">obj_row</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+	<span class="kd">var</span> <span class="nx">row</span> <span class="o">=</span> <span class="p">[];</span>
+
+	<span class="kd">var</span> <span class="nx">undef</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">col_index</span> <span class="p">)</span>
+	<span class="p">{</span>
+	    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span><span class="p">(</span><span class="nx">obj_row</span><span class="p">[</span><span class="nx">col_index</span><span class="p">[</span><span class="nx">c</span><span class="p">]])</span> <span class="o">==</span> <span class="s2">&quot;undefined&quot;</span><span class="p">)</span>
+	    <span class="p">{</span>
+		<span class="nx">undef</span><span class="o">++</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="nx">row</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">obj_row</span><span class="p">[</span><span class="nx">col_index</span><span class="p">[</span><span class="nx">c</span><span class="p">]]);</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span> <span class="nx">undef</span> <span class="o">==</span> <span class="nx">row</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
+	    <span class="k">continue</span><span class="p">;</span>
+	<span class="nx">rows</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">data</span><span class="p">(</span> <span class="nx">rows</span> <span class="p">);</span>
+    <span class="nx">ret</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span> <span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="nx">col_index</span> <span class="p">);</span>
+    
+    <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+</pre></div></td></tr><tr id="section-"><td class="docs"><div class="pilwrap"><a class="pilcrow" href="#section-">&#182;</a></div><p>from_input - read a csv from a file input field</p></td><td class="code"><div class="highlight"><pre lang="javascript"><span></span><span class="nx">data</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">from_input</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">sel</span><span class="p">,</span> <span class="nx">callback</span> <span class="p">)</span>
+<span class="p">{</span>
+    
+    <span class="nx">sel</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+	<span class="kd">var</span> <span class="nx">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+	
+	<span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="nx">sel</span><span class="p">.</span><span class="nx">node</span><span class="p">().</span><span class="nx">files</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">files</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;undefined&quot;</span> <span class="o">||</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+	    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;no file selected&quot;</span><span class="p">);</span>
+	    <span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">files</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+	<span class="nx">reader</span><span class="p">.</span><span class="nx">onloadend</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">e</span> <span class="p">)</span>
+	<span class="p">{</span>
+	    <span class="nx">callback</span><span class="p">(</span> <span class="k">new</span> <span class="nx">data</span><span class="p">([[]]).</span><span class="nx">from_obj</span><span class="p">(</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">csvParse</span><span class="p">(</span> <span class="nx">reader</span><span class="p">.</span><span class="nx">result</span> <span class="p">)));</span>
+	<span class="p">}</span>
+
+	<span class="nx">reader</span><span class="p">.</span><span class="nx">readAsText</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+</pre></div></td></tr></tbody></table></div></body></html>
