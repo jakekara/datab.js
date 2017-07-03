@@ -5,23 +5,21 @@
 
 * [data](#data)
     * [new data(matrix)](#new_data_new)
-    * _instance_
-        * [.copy()](#data+copy)
-        * [.transpose()](#data+transpose)
-        * [.index([axis], [arr])](#data+index)
-        * [.drop_row(id)](#data+drop_row)
-        * [.drop_col()](#data+drop_col)
-        * [.add_row(arr, id, index)](#data+add_row)
-        * [.add_col(arr, id, index)](#data+add_col)
-        * [.to_obj(index)](#data+to_obj)
-        * [.to_csvblob()](#data+to_csvblob)
-        * [.to_jsonblob()](#data+to_jsonblob)
-        * [.to_csv()](#data+to_csv)
-        * [.to_json()](#data+to_json)
-        * [.from_obj(obj)](#data+from_obj)
-        * [.from_input(sel, callback)](#data+from_input)
-    * _static_
-        * [.equals()](#data.equals)
+    * [.equals()](#data+equals)
+    * [.copy()](#data+copy)
+    * [.transpose()](#data+transpose)
+    * [.index([axis], [arr])](#data+index)
+    * [.drop_row(id)](#data+drop_row)
+    * [.drop_col()](#data+drop_col)
+    * [.add_row(arr, id, index)](#data+add_row)
+    * [.add_col(arr, id, index)](#data+add_col)
+    * [.to_obj(index)](#data+to_obj)
+    * [.to_csvblob()](#data+to_csvblob)
+    * [.to_jsonblob()](#data+to_jsonblob)
+    * [.to_csv()](#data+to_csv)
+    * [.to_json()](#data+to_json)
+    * [.from_obj(obj)](#data+from_obj)
+    * [.from_input(sel, callback)](#data+from_input)
 
 <a name="new_data_new"></a>
 
@@ -33,6 +31,14 @@ create a data object from a two-dimensional array
 | --- | --- |
 | matrix | a matrix (2d-array) of the table |
 
+<a name="data+equals"></a>
+
+### data.equals()
+equals - test that two datab.data objects are equal
+
+**Kind**: instance method of [<code>data</code>](#data)  
+**A**: - first object  
+**B**: - second object  
 <a name="data+copy"></a>
 
 ### data.copy()
@@ -160,11 +166,3 @@ from_input - read a csv from a file input field
 | sel | d3 selection to attatch to |
 | callback | function to call when file is selected |
 
-<a name="data.equals"></a>
-
-### data.equals()
-equals - test that two datab.data objects are equal
-
-**Kind**: static method of [<code>data</code>](#data)  
-**A**: - first object  
-**B**: - second object  
