@@ -9,7 +9,8 @@
  *            cols - retrieve matrix of columns
  * 
  *           index - set or get the col or row index 
- *       transpose - transpose the table
+ *       transpose - transpose the table 
+ *          equals - test if object is equivalent to another object
  *            copy - get a copy of a data object
  * 
  *         add_col - add a column
@@ -77,12 +78,13 @@ export {data};
  * @a - first object
  * @b - second object
  */
-data.equals = function(a, b){
+data.prototype.equals = function(b){
 
-    if (( ! a instanceof datab.data ) || (!b instanceof datab.data))
-	throw "ERROR: Values must be instances of datab.data";
+    // if (( ! a instanceof data ) || ( ! b instanceof data ))
+    if ( ! b instanceof (data))
+	throw new Error("ERROR: Value must be instance of datab.data");
     
-    return self.to_json(a) == self.to_json(b);
+    return this.to_json(true) == b.to_json(true);
 }
 
 /**
@@ -117,17 +119,25 @@ data.prototype.index = function( axis, arr )
 {
     if ( typeof( axis ) == "undefined" )
 	return this.__index;
+    
     if ( typeof( arr ) == "undefined" )
 	return this.__index[axis];
 
     if ( this.__index[axis].length != arr.length )
-	throw "data.index: array must be same length as axis ";
+	throw new Error("data.index: array must be same length as axis ");
 
     // TODO - add a test to make sure values are unique
-    
-    this.__index[axis] = arr;
 
+
+    // July 3, 2017 - The below modification makes this function,
+    // like all of the others, not mutate the original 
+    this.__index[axis] = arr;
     return this;
+
+    // var ret = this.copy();
+    // ret.__index[axis] == arr;
+    // return ret;
+    
 }
 
 
@@ -142,7 +152,7 @@ data.prototype.drop_row = function( id )
     var id_i = this.index( "row" ).indexOf( id );
 
     if ( id_i < 0 )
-	throw "data.drop_row: id not found";
+	throw new Error("data.drop_row: id not found");
 
     return new data(this.rows().splice( id_i ))
 	.index( "row",
@@ -178,10 +188,10 @@ data.prototype.add_row = function (  arr, id, index )
 	var id = String( index );
 
     if ( typeof( arr ) == "undefined" )
-	throw "data.add_row: requires an array of values";
+	throw new Error("data.add_row: requires an array of values");
 
     if ( arr.length != this.cols().length )
-	throw "data.add_row: invalid array length";
+	throw new Error("data.add_row: invalid array length");
 
     var tmp_rows = this.rows();
     var tmp_index = this.index( "row" );
@@ -316,8 +326,8 @@ data.prototype.from_obj = function(obj)
 	if ( row_index_i >= 0 ) key_count -= 1; // don't count __index 
 
 	if ( key_count != col_index.length )
-	    throw "Error: Shape mismatch. Exepcted " + col_index.length
-	    + " columns. Got " + Object.keys(obj_row).length ;
+	    throw new Error("Error: Shape mismatch. Exepcted " + col_index.length
+			    + " columns. Got " + Object.keys(obj_row).length );
 
 	var row = [];
 
@@ -327,7 +337,7 @@ data.prototype.from_obj = function(obj)
 	for ( var c in col_index )
 	{
 	    if ( typeof(obj_row[col_index[c]]) == "undefined")
-		throw "Error: Row is missing values!"
+		throw new Error("Error: Row is missing values!");
 		// undef++;
 	    row.push(obj_row[col_index[c]]);
 	}
@@ -339,7 +349,7 @@ data.prototype.from_obj = function(obj)
 	
 	// OK, here's more strict:
 	// if ( undef > 0)
-	//     throw "Error: Row is missing values"
+	//     throw new Error("Error: Row is missing values")
 	//     // continue;
 
 	if ( row_index_i >= 0)

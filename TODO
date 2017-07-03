@@ -1,3 +1,14 @@
+Should the core of datab.data be smaller?
+
+       1. I am now realizing that I could separate out the core datab.data
+       	  module from methods to alter a datab.data instance. Almost all of
+       	  these functions do not mutate the underlying object anyway, but
+       	  rather return a modified copy of the object.
+
+       2. That got me thinking, why did I make it so that
+          index(row/col,[....]) does mutate the object? I could easily just
+          make it work by creating a new copy, which would dedupe some of
+          the sanity checking.
 
 Serialization and deserialization
 
