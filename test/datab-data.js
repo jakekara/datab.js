@@ -142,32 +142,32 @@ const json_equal = require("./teststuff.js")["json_equal"];
 // describe(".copy()", function(){
 // });
 
-describe(".add_col()", function(){
-});
+// describe(".add_col()", function(){
+// });
 
-describe(".add_row()", function(){
-});
+// describe(".add_row()", function(){
+// });
 
-describe(".drop_col()", function(){
-});
+// describe(".drop_col()", function(){
+// });
 
-describe(".drop_row()", function(){
-});
+// describe(".drop_row()", function(){
+// });
 
 // Serialization
 
-describe(".to_obj()", function(){
-});
+// describe(".to_obj()", function(){
+// });
 
 
-describe("to_json()", function(){
-});
+// describe("to_json()", function(){
+// });
 
-describe(".to_csv()", function(){
-});
+// describe(".to_csv()", function(){
+// });
 
-describe(".to_csvblob()", function(){
-});
+// describe(".to_csvblob()", function(){
+// });
 
 // Deserialization
 describe(".from_input()", function(){
