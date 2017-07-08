@@ -19,15 +19,15 @@ describe("datab.data.from_obj()", function(){
 	assert.ok(new datab.data().from_obj() instanceof datab.data);
     });
 
-    it(".from_obj() throws an exception if its given a non-matrix string", function(){
+    it(".from_obj() throws an exception if its given a non-array string", function(){
 	assert.throws(()=>{new datab.data().from_obj("BAD INPUT");}, Error);
     });
-    it(".from_obj() throws an exception if its given a non-matrix array", function(){
+    it(".from_obj() throws an exception if its given a array of non-object", function(){
 	assert.throws(()=>{new datab.data().from_obj("BAD INPUT");}, Error);
 	assert.throws(()=>{new datab.data().from_obj([1,2,3]);},Error);
     });
-    it(".from_obj() throws an exception if its given a non-matrix int", function(){
-	assert.throws(()=>{new datab.data().from_obj(1,2,3);},Error);
+    it(".from_obj() throws an exception if its given a non-array int", function(){
+	assert.throws(()=>{new datab.data().from_obj(1);},Error);
     });
     
 });

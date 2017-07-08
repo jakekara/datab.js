@@ -31,6 +31,7 @@
  */
 
 import * as d3 from "d3";
+import { default as is } from "./datab-is.js";
 
 /** 
  * create a data object from a two-dimensional array
@@ -304,7 +305,10 @@ data.prototype.to_json = function(index)
 data.prototype.from_obj = function(obj)
 {
     if ( typeof(obj) == "undefined" )
-	return new data()
+	return new data();
+
+    if ( ! is.is_array( obj ) )
+	throw new Error("from_obj requires an array of dict-like object");
 
     if ( obj.length < 1 )
 	return new data([[]]);
@@ -325,9 +329,14 @@ data.prototype.from_obj = function(obj)
 
 	var obj_row = obj[i];
 
+	// make sure that the row is an object and not some other type
+	if ( ! is.is_object(obj_row) )
+	    throw new ("Error: row is not an object");
+
 	var key_count = Object.keys(obj_row).length;
 	if ( row_index_i >= 0 ) key_count -= 1; // don't count __index 
 
+	// make sure the row is the expected length
 	if ( key_count != col_index.length )
 	    throw new Error("Error: Shape mismatch. Exepcted " + col_index.length
 			    + " columns. Got " + Object.keys(obj_row).length );

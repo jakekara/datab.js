@@ -1,5 +1,37 @@
 CHANGES
 
+July 8, 2017
+
+     Today I moved the is tests (is_array, is_object, is_function) out of
+     the test suite and into a new module called datab.is, and subsequently
+     refactored my test scripts. These functions will prove useful in
+     testing inputs and throwing useful errors.
+
+     I have made a little bit of a mess out of the test scripts, so I need
+     to uniform then when I have some time:
+
+     	* I want to remove the local variable assignment of is_object,
+          is_array and is_function from the tops of my test scripts and
+          access the method directly via datab.is.is_function, etc;
+	* I also want to fix my use of require() at the top of my test
+          scripts, so I only make the require() call once.
+
+      Last week, I ended up fixing the serialization, deserialization issue
+      by using any column named __index as the index, when deserializing
+      from an object (an array of row dicts), and when I serialize, I
+      default to not including __index as a property of each row. However,
+      passing true as the first argument to to_obj will change that
+      behavior. This way it won't break code I've previously written that
+      expects this behavior. I think it's also reasonable to assume we
+      generally don't care about row indexes for a lot of tabular data.
+
+      BIG TODO
+
+      My transpose functionality is cripplingly slow for large datasets
+      because it depends on d3.transpose(). I'm on the fence on a few ways
+      to fix this.
+      
+        
 July 1, 2017
 
      Using jsdoc-to-markdown for code documentation for now, but not
