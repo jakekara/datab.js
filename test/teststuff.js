@@ -9,7 +9,7 @@ var FNAME="../dist/datab.rollup-bundle.js";
 exports.datab = require(FNAME);
 
 // set testing stuff up
-exports. assert = require('assert');
+exports.assert = require('assert');
 
 // test two arrays for equality by
 // stringifying their values
@@ -46,19 +46,28 @@ exports.big_matrix = function(rows, cols){
 }
 
 
-var is = function(a, expected){
-    return Object.prototype.toString.call( a ) === expected;
+// var is = function(a, expected){
+//     return Object.prototype.toString.call( a ) === expected;
+// }
+
+// exports.is = is;
+
+// exports.is_function = function(a){
+//     return is(a, '[object Function]');
+// }
+
+// exports.is_array = function(a){
+//     return is(a, '[object Array]');
+
+// }
+
+// exports.is_object = function(a){ return is(a, '[object Object]'); };
+
+// return datab.data object about cars
+exports.car_obj = function(){
+	return [{"car":"Mustang","year":1969,"price":"$25,000","__index":"SALLY"},
+	 {"car":"Corvette","year":1971,"price":"$33,000","__index":"VETTE-43"},
+	 {"car":"Beetle","year":2001,"price":"$2,000","__index":"DMV-433"}];
 }
 
-exports.is = is;
 
-exports.is_function = function(a){
-    return is(a, '[object Function]');
-}
-
-exports.is_array = function(a){
-    return is(a, '[object Array]');
-
-}
-
-exports.is_object = function(a){ return is(a, '[object Object]'); };

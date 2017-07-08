@@ -4,9 +4,13 @@ const assert = require("./teststuff.js")["assert"];
 const json_equal = require("./teststuff.js")["json_equal"]
 const big_array = require("./teststuff.js")["big_array"];
 const big_matrix = require("./teststuff.js")["big_matrix"];
-const is_array = require("./teststuff.js")["is_array"];
-const is_function = require("./teststuff.js")["is_function"];
-const is_object = require("./teststuff.js")["is_object"];
+// const is_array = require("./teststuff.js")["is_array"];
+// const is_function = require("./teststuff.js")["is_function"];
+// const is_object = require("./teststuff.js")["is_object"];
+
+const is_array = datab.is.is_array;
+const is_function = datab.is.is_function;
+const is_object = datab.is.is_object;
 
 describe("datab.data basics", function(){
 

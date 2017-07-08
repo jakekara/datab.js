@@ -303,8 +303,11 @@ data.prototype.to_json = function(index)
  */
 data.prototype.from_obj = function(obj)
 {
+    if ( typeof(obj) == "undefined" )
+	return new data()
+
     if ( obj.length < 1 )
-	return [[]];
+	return new data([[]]);
 
     // base the column index (headers) off the first row object
     var col_index = Object.keys( obj[0] );
@@ -378,7 +381,6 @@ data.prototype.from_obj = function(obj)
     // 	return ret.drop_col("__index");
     // }
 
-    
     return ret;
 }
 

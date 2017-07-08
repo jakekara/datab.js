@@ -1,72 +1,24 @@
 // import datab bundle
-const datab = require("./teststuff.js")["datab"];
-const assert = require("./teststuff.js")["assert"];
-const json_equal = require("./teststuff.js")["json_equal"];
-const big_array = require("./teststuff.js")["big_array"];
-const big_matrix = require("./teststuff.js")["big_matrix"];
-const is_array = require("./teststuff.js")["is_array"];
-const is_function = require("./teststuff.js")["is_function"];
-const is_object = require("./teststuff.js")["is_object"];
+const teststuff = require("./teststuff.js");
+const datab = teststuff.datab;
+const assert = teststuff.assert;
+const json_equal = teststuff.json_equal;
+const big_matrix = teststuff.big_matrix;
+const big_array = teststuff.big_array;
+const car_obj = teststuff.car_dobj;
 
+const is_array = teststuff.datab.is.is_array;
+const is_function = teststuff.datab.is.is_function;
+const is_object = teststuff.datab.is.is_object;
 
-describe("teststuff.is_array", function(){
-    it("is_array returns true for non-empty array", function(){
-	assert.equal(true,is_array([1,2,3]));
-	assert.equal(true,is_array([1,2,[]]));	
-    });
-
-    it("is_array returns true for empty array", function(){
-	assert.equal(true, is_array([]));
-    });
-    it("is_array returns true for empty 2d array", function(){
-	assert.equal(true, is_array([[]]));
-    });
-    it("is_array returns true for empty 3d array", function(){
-	assert.equal(true,is_array([[[]]]));
-    });
-    it("is_array returns false for function", function(){
-	assert.equal(false,is_array(function(){}));
-    });
-    it("is_array returns false for object", function(){
-	assert.equal(false,is_array({}));
-    });
-    it("is_array returns false for string", function(){
-	assert.equal(false,is_array("STRING"));
-    });
-    it("is_array returns false for tricky string", function(){
-	assert.equal(false,is_array("[object Array]"));
-    });
-    it("is_array returns false for tricky number", function(){
-	assert.equal(false,is_array(100));
-    });
-});
-
-describe("teststuff.is_function", function(){
-
-    it("is_function returns true for a function", function(){
-	assert.equal(true, is_function(function(){}));
-    });
-
-    it("is_function returns false for an array", function(){
-	assert.equal(false, is_function([[]]));
-    });
-});
-
-describe("teststuff.is_object", function(){
-
-    it("is_object returns true for {}", function(){
-	assert.equal(true, is_object({}));
-    });
-    it("is_object returns false for []", function(){
-	assert.equal(false, is_object([]));
-    });
-    it("is_object returns false for function(){}", function(){
-	assert.equal(false, is_object(function(){}));
-    });
-
-    
-});
-
+// const datab = require("./teststuff.js")["datab"];
+// const assert = require("./teststuff.js")["assert"];
+// const json_equal = require("./teststuff.js")["json_equal"];
+// const big_array = require("./teststuff.js")["big_array"];
+// const big_matrix = require("./teststuff.js")["big_matrix"];
+// const is_array = require("./teststuff.js")["is_array"];
+// const is_function = require("./teststuff.js")["is_function"];
+// const is_object = require("./teststuff.js")["is_object"];
 
 describe("teststuff.json_equal", function(){
 
@@ -126,8 +78,8 @@ describe("teststuff.json_equal", function(){
 
 describe("teststuff.big_array", function(){
 
-    it("big_array returns an array", function(){
-	is_array( big_array );
+    it("big_array() returns an array", function(){
+	datab.is.is_array( big_array() );
     });
 
     it("big_array returns big array when no dimensions are specified", function(){

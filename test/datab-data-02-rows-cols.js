@@ -6,8 +6,11 @@ const datab = require("./teststuff.js")["datab"];
 const assert = require("./teststuff.js")["assert"];
 const json_equal = require("./teststuff.js")["json_equal"];
 const big_matrix = require("./teststuff.js")["big_matrix"];
-const is_array = require("./teststuff.js")["is_array"];
-const is_function = require("./teststuff.js")["is_function"];
+// const is_array = require("./teststuff.js")["is_array"];
+// const is_function = require("./teststuff.js")["is_function"];
+
+const is_array = datab.is.is_array;
+const is_function = datab.is.is_function;
 
 describe("datab.data.rows", function(){
     it("datab.data.rows is a function()", function(){
