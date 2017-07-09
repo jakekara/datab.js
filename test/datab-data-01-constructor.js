@@ -33,6 +33,9 @@ describe("datab.data basics", function(){
 	    assert.ok(new datab.data(big_matrix()) instanceof datab.data);
 	    assert.ok(!(new datab.data(big_matrix()) instanceof Number));
 	});
+	it("datab.data().toString is '[object datab.data]'", function(){
+	    assert.equal("[object datab.data]", new datab.data() + "");
+	});
     });
     
 });

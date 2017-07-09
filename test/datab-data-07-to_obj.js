@@ -31,6 +31,11 @@ describe("datab.data.to_obj", function(){
     	assert.equal(true, datab.is.is_array(dobj.to_obj()));
     });
 
+    it(".to_obj() without empty matrix returns array of length zero", function(){
+    	assert.equal(0, new datab.data().to_obj().length);
+    });
+    
+
     it(".to_obj() returns an array of objects", function(){
     	assert.equal(true, datab.is.is_array(dobj.to_obj()));
 	dobj.to_obj().forEach(function(a){

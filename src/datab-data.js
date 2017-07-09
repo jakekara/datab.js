@@ -43,7 +43,7 @@ var data = function( matrix )
 
     // default to empty 2d array
     if ( typeof( matrix ) == "undefined" )
-	var matrix = [[]];
+	var matrix = [];	// zero rows
 
     // store rows for O(n) retrieval after initial
     // operation. sacrifices memory efficiency
@@ -233,6 +233,8 @@ data.prototype.to_obj = function(index)
     
     this.rows().forEach( function( r, i ){
 
+	
+
 	var obj = {
 	    // on the fence about whether to store the
 	    // row index in this manner; possible collisions
@@ -311,7 +313,7 @@ data.prototype.from_obj = function(obj)
 	throw new Error("from_obj requires an array of dict-like object");
 
     if ( obj.length < 1 )
-	return new data([[]]);
+	return new data();
 
     // base the column index (headers) off the first row object
     var col_index = Object.keys( obj[0] );
@@ -424,4 +426,8 @@ data.prototype.from_input = function( sel, callback )
 
 	reader.readAsText(file);
     });
+}
+
+data.prototype.toString = function (){
+    return "[object datab.data]";
 }

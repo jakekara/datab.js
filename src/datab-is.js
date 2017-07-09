@@ -1,4 +1,7 @@
-/**/
+/* 
+ * datab-is.js - module for testing whether objects are expected types
+ *
+ */
 
 var is = function(a, expected){
     return Object.prototype.toString.call( a ) === expected;
@@ -14,6 +17,16 @@ var is_array = function(a){
 }
 
 var is_object = function(a){ return is(a, '[object Object]'); };
+
+var is_matrix = function(a){
+
+    if ( ! is_array(a) ) return false;
+
+    var i = 0;
+
+    throw new Error("datab.is.is_matrix not implemented!");
+    
+}
 
 export default {
     "is_object":is_object,

@@ -1,5 +1,9 @@
 CHANGES
 
+July 9, 2017
+
+
+
 July 8, 2017
 
      Today I moved the is tests (is_array, is_object, is_function) out of
@@ -25,11 +29,11 @@ July 8, 2017
       expects this behavior. I think it's also reasonable to assume we
       generally don't care about row indexes for a lot of tabular data.
 
-      BIG TODO
+      BIG TODO - O(1) transpose
 
       My transpose functionality is cripplingly slow for large datasets
       because it depends on d3.transpose(). I'm on the fence on a few ways
-      to fix this.
+      to fix this. 
       
         
 July 1, 2017
