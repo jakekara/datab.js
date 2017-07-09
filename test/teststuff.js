@@ -9,7 +9,7 @@ var FNAME="../dist/datab.rollup-bundle.js";
 exports.datab = require(FNAME);
 
 // set testing stuff up
-exports.assert = require('assert');
+exports. assert = require('assert');
 
 // test two arrays for equality by
 // stringifying their values
